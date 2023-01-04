@@ -1,6 +1,6 @@
 use colored::*;
 use sys_info::*;
-use users::*;
+use whoami::*;
 use chrono::*;
 
 fn get_os() -> OsInfo {
@@ -82,10 +82,7 @@ fn main() {
     let current_info = get_os();
     let info_string = format!("{} {}", current_info.icon, current_info.name).color(current_info.term_color).bold();
 
-    if hostname().is_ok() & get_current_username().is_some() {
-        let username = format!("{:#?}", get_current_username().unwrap());
-        println!("{} {}", String::from("Host:").bright_white(), format!(" {}@{}", &username[1..(username.len() - 1)], hostname().unwrap()).bold())
-    }
+    println!("{} {}", String::from("Host:").bright_white(), format!(" {}@{}", username(), whoami::hostname()).bold());
 
     println!("{} {}", String::from("OS:").bright_white(), info_string);
     if proc_total().is_ok() {
