@@ -1,96 +1,45 @@
 use colored::*;
-use sys_info::*;
+use sysinfo::*;
 use whoami::*;
 use chrono::*;
 
-fn get_os() -> OsInfo {
-    let current_info: OsInfo = match os_type() {
-        Ok(os_type) => match os_type.as_ref() {
-            "Windows" => OsInfo {
-                name: String::from("Windows"),
-                icon: '',
-                term_color: String::from("bright cyan"),
-            },
-            "Darwin" => OsInfo {
-                name: String::from("Apple Darwin"),
-                icon: '',
-                term_color: String::from("bright white"),
-            },
-            "Linux" => get_linux_info(),
-            _ => OsInfo {
-                name: String::from("Unknown"),
-                icon: '',
-                term_color: String::from("bright white"),
-            },
-        },
-        _ => OsInfo {
-            name: String::from("Unknown"),
-            icon: '',
-            term_color: String::from("bright white"),
-        },
-    };
-
-    current_info
-}
-
-fn get_linux_info() -> OsInfo {
-    match linux_os_release() {
-        Ok(release_info) => match release_info.pretty_name.unwrap().as_ref() {
-            "Arch Linux" => OsInfo {
-                name: String::from("Arch Linux"),
-                icon: '',
-                term_color: String::from("bright cyan"),
-            },
-            "Linux Debian" => OsInfo {
-                name: String::from("Linux Debian"),
-                icon: '',
-                term_color: String::from("red"),
-            },
-            "Fedora Linux" => OsInfo {
-                name: String::from("Fedora Linux"),
-                icon: '',
-                term_color: String::from("bright blue"),
-            },
-            _ => OsInfo {
-                name: String::from("Unknown Linux"),
-                icon: '',
-                term_color: String::from("bright white"),
-            },
-        },
-        _ => OsInfo {
-            name: String::from("Unknown Linux"),
-            icon: '',
-            term_color: String::from("bright white"),
-        },
-    }
-}
-
-struct OsInfo {
-    name: String,
-    icon: char,
-    term_color: String,
-}
-
 fn main() {
+    let sys_info = InformationStruct::new();
+    println!("{}", sys_info.os_name);
+}
 
-    println!();
+struct InformationStruct {
+    username: String,
+    hostname: String,
+    os_name: String,
+    os_ver: String,
+    kernel_ver: String,
+    uptime: u64,
+    shell: String,
+    terminal: String,
+    cpu: String,
+    gpu: String,
+    memory: String,
+    icon: char,
+}
 
-    let date = chrono::Utc::now();
-    let date_string = format!("{}, {}-{}-{} at {}:{}", date.weekday(), date.year(), date.month(), date.day(), date.hour(), date.minute());
-    println!("{} {}", format!("Date:").bright_white(), format!(" {}", date_string).bright_yellow());
-
-    let current_info = get_os();
-    let info_string = format!("{} {}", current_info.icon, current_info.name).color(current_info.term_color).bold();
-
-    println!("{} {}", String::from("Host:").bright_white(), format!(" {}@{}", username(), whoami::hostname()).bold());
-
-    println!("{} {}", String::from("OS:").bright_white(), info_string);
-    if proc_total().is_ok() {
-        println!("{} {}", String::from("Procs:").bright_white(), format!(" {}", proc_total().unwrap()).magenta().bold());
+impl InformationStruct {
+    fn new() -> Self {
+        let mut sys = System::new_all();
+        sys.refresh_all();
+        Self{
+            username: whoami::username(),
+            hostname: whoami::hostname(),
+            os_name: sys.name().unwrap_or(String::from("Unknown System")),
+            os_ver: sys.os_version().unwrap_or(String::from("Unknown System Version")),
+            kernel_ver: sys.kernel_version().unwrap_or(String::from("Unknown Kernel Version")),
+            uptime: sys.uptime(),
+            shell: String::from("Unknown Shell"),
+            terminal: String::from("Unknown Terminal"),
+            cpu: String::from(sys.cpus()[0].brand()),
+            gpu: String::from("Unknown GPU"),
+            memory: String::from("Unknown memory"),
+            icon: '?',
+        }
     }
-
-    if cpu_num().is_ok() & cpu_speed().is_ok() {
-        println!("{} {}", String::from("CPUs:").bright_white(), format!(" {} @ {}mhz", cpu_num().unwrap(), cpu_speed().unwrap()).bright_black().bold())
-    }
-
 }
