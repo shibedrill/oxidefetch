@@ -13,10 +13,11 @@ fn main() {
 
     println!();
 
+    println!("{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '', &datetime_formatted, "bright yellow");
     color_print("Host:\t", '', &format!("{}@{}", sys_info.username, sys_info.hostname), "purple");
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
-    color_print("Ver:\t", '', &sys_info.os_ver, "red");
+    color_print("Ver:\t", '', &sys_info.os_ver, "bright red");
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
     color_print("Uptime:\t", '', &format!("{}s", sys_info.uptime), "bright black");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
@@ -25,8 +26,8 @@ fn main() {
 
 fn color_print(field_title: &str, icon: char, field: &str, color: &str) {
     println!(
-        "{} {}",
-        field_title.bright_white(),
+        "{}",
+        //field_title.bright_white(),
         format!("{} {}", icon, field).color(color)
     );
 }
