@@ -2,7 +2,6 @@
 use chrono::*;
 use colored::*;
 use sysinfo::*;
-use std::process::Command;
 use std::env;
 use whoami;
 
@@ -17,37 +16,37 @@ fn main() {
     println!();
 
     println!("{}", String::from(">>> OxideFetch  <<<").red());
-    color_print("Date:\t", '', &datetime_formatted, "bright yellow");
-    color_print("Host:\t", '', &format!("{}@{}", sys_info.username, sys_info.hostname), "purple");
+    color_print("Date:\t", '', &Some(datetime_formatted), "bright yellow");
+    color_print("Host:\t", '', &Some(format!("{}@{}", sys_info.username, sys_info.hostname)), "purple");
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
     color_print("Ver:\t", '', &sys_info.os_ver, "bright red");
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
-    color_print("Uptime:\t", '', &format!("{}s", sys_info.uptime), "bright black");
+    color_print("Uptime:\t", '', &Some(format!("{}s", sys_info.uptime)), "bright black");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
-    color_print("CPU:\t", '', &sys_info.cpu, "green");
+    color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
+    color_print("GPU:\t", '', &sys_info.gpu, "bright green")
 
 }
 
-fn color_print(field_title: &str, icon: char, field: &str, color: &str) {
-    println!(
-        "{}",
-        //field_title.bright_white(),
-        format!("{} {}", icon, field).color(color)
-    );
+fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
+    if field.is_some() {
+        //print!("{} ", field_title.bright_white());
+        println!("{}", format!("{} {}", icon, field.as_ref().unwrap()).color(color));
+    }
 }
 
 #[derive(Debug)]
 struct InformationStruct {
     username: String,
     hostname: String,
-    os_name: String,
-    os_ver: String,
-    kernel_ver: String,
+    os_name: Option<String>,
+    os_ver: Option<String>,
+    kernel_ver: Option<String>,
     uptime: u64,
-    shell: String,
+    shell: Option<String>,
     _terminal: String,
     cpu: String,
-    _gpu: String,
+    gpu: Option<String>,
     _memory: String,
     icon: char,
     color: String,
@@ -62,24 +61,20 @@ impl InformationStruct {
 
             hostname: whoami::hostname(),
 
-            os_name: sys.name().unwrap_or(String::from("Unknown System")),
+            os_name: sys.name(),
 
-            os_ver: sys
-                .os_version()
-                .unwrap_or(String::from("Unknown System Version")),
+            os_ver: sys.os_version(),
 
-            kernel_ver: sys
-                .kernel_version()
-                .unwrap_or(String::from("Unknown Kernel Version")),
+            kernel_ver: sys.kernel_version(),
 
             uptime: sys.uptime(),
 
             shell: {
                 let var = env::var("SHELL");
                 if var.is_ok() {
-                    format!("{}", var.unwrap().split('/').last().unwrap())
+                    Some(format!("{}", var.unwrap().split('/').last().unwrap()))
                 } else {
-                    String::from("Unknown Shell")
+                    None
                 }
             },
 
@@ -87,21 +82,32 @@ impl InformationStruct {
 
             cpu: String::from(sys.cpus()[0].brand()),
 
-            _gpu: {
+            gpu: {
                 match sys.name().unwrap_or(String::from("Unknown System")).as_ref() {
                     "Windows" => {
                         let command_output = std::process::Command::new("wmic").args(["path", "win32_VideoController", "get", "name"]).output();
                         match command_output {
                             Ok(gpu_info) => {
                                 let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
-                                String::from(gpu_info_as_string.unwrap().split("\n").collect::<Vec<&str>>()[1])
+                                Some(String::from(gpu_info_as_string.unwrap().split("\n").collect::<Vec<&str>>()[1]))
                             },
-                            Err(_) => String::from("Unknown GPU"),
+                            Err(_) => None,
                         }
                     }
-                    _ => String::from("Unknown GPU"),
+                    _ => {
+                        let command_output = std::process::Command::new("lspci").args(["|", "grep", "VGA", "|", "cut", "-d", "\":\"", "-f3"]).output();
+                        let gpu = match command_output {
+                            Ok(gpu_info) => Some(String::from_utf8(gpu_info.stdout).unwrap()),
+                            Err(_) => None,
+                        };
+                        if gpu == Some(String::from("")) {
+                            None
+                        } else {
+                            gpu
+                        }
+                    }
                 }
-            }, // TODO: Add GPU detection.
+            },
 
             _memory: String::from("Unknown memory"), // TODO: Add memory detection.
 
