@@ -112,7 +112,6 @@ impl InformationStruct {
                             Err(_) => None,
                         };
                         if gpu == Some(String::from("")) {
-                            println!("GPU: {}", gpu.unwrap());
                             None
                         } else {
                             gpu
