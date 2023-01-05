@@ -18,8 +18,9 @@ From there, it *should* be in your PATH. If not, add ```~/.cargo/bin``` to your 
 There's only a couple runtime dependencies for this project.  
 1: ```bash``` shell installed for GPU detection on Linux/Unix/mac.  
 2: ```lspci``` installed for GPU detection on Linux/Unix/mac.  
-If either of these dependencies are absent, chances are the GPU field will simply not show up. It won't crash or anything.  
-GPU detection runs on Windows without any dependencies.
+(If either of these above dependencies are absent, chances are the GPU field will simply not show up. It won't crash or anything.  
+GPU detection runs on Windows without any dependencies.)  
+3: Nerd fonts symbols are used in the output. Install a patched font on  your system, or patch an already installed font.
 
 ### How you can help with the project
 I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people 
