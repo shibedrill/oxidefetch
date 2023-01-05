@@ -2,7 +2,9 @@
 use chrono::*;
 use colored::*;
 use sysinfo::*;
+use std::process::Command;
 use std::env;
+use whoami;
 
 fn main() {
     let sys_info = InformationStruct::new();
@@ -86,10 +88,19 @@ impl InformationStruct {
             cpu: String::from(sys.cpus()[0].brand()),
 
             _gpu: {
-                if sys.name().unwrap_or(String::from("Unknown System")) == "Windows" {
-                    println!("{:#?}", std::process::Command::new("wmic").arg("path").arg("win32_VideoController").arg("get").arg("name").output().expect("Unknown GPU"));
+                match sys.name().unwrap_or(String::from("Unknown System")).as_ref() {
+                    "Windows" => {
+                        let command_output = std::process::Command::new("wmic").args(["path", "win32_VideoController", "get", "name"]).output();
+                        match command_output {
+                            Ok(gpu_info) => {
+                                let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
+                                String::from(gpu_info_as_string.unwrap().split("\n").collect::<Vec<&str>>()[1])
+                            },
+                            Err(_) => String::from("Unknown GPU"),
+                        }
+                    }
+                    _ => String::from("Unknown GPU"),
                 }
-                String::from("Unknown GPU")
             }, // TODO: Add GPU detection.
 
             _memory: String::from("Unknown memory"), // TODO: Add memory detection.
