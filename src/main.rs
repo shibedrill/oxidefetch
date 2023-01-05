@@ -4,6 +4,7 @@ use colored::*;
 use sysinfo::*;
 use std::env;
 use whoami;
+use compound_duration;
 
 fn main() {
     let sys_info = InformationStruct::new();
@@ -21,7 +22,7 @@ fn main() {
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
     color_print("Ver:\t", '', &sys_info.os_ver, "bright red");
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
-    color_print("Uptime:\t", '', &Some(format!("{}s", sys_info.uptime)), "bright black");
+    color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright black");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
     color_print("GPU:\t", '', &sys_info.gpu, "bright green")
@@ -42,7 +43,7 @@ struct InformationStruct {
     os_name: Option<String>,
     os_ver: Option<String>,
     kernel_ver: Option<String>,
-    uptime: u64,
+    uptime: String,
     shell: Option<String>,
     _terminal: String,
     cpu: String,
@@ -67,7 +68,7 @@ impl InformationStruct {
 
             kernel_ver: sys.kernel_version(),
 
-            uptime: sys.uptime(),
+            uptime: compound_duration::format_dhms(sys.uptime()),
 
             shell: {
                 let var = env::var("SHELL");

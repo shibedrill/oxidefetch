@@ -83,6 +83,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "compound_duration"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "14c803d816c4ed6d0dadd5b54f7ef4f3761418fe802106b161d77476cc3c664c"
+
+[[package]]
 name = "core-foundation-sys"
 version = "0.8.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -321,6 +327,7 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "colored",
+ "compound_duration",
  "quoted-string",
  "sysinfo",
  "whoami",
