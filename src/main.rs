@@ -1,4 +1,6 @@
 
+// Code by River. Copy if you want, but don't say it's yours.
+
 use chrono::*;
 use colored::*;
 use sysinfo::*;
@@ -7,7 +9,10 @@ use whoami;
 use compound_duration;
 
 fn main() {
+    // Generate system info struct
     let sys_info = InformationStruct::new();
+    
+    // Format the date and time
     let datetime_formatted = format!(
         "{}, {}",
         Utc::now().weekday(),
@@ -30,6 +35,7 @@ fn main() {
 }
 
 fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
+    // If the field is missing, it won't print.
     if field.is_some() {
         //print!("{} ", field_title.bright_white());
         println!("{}", format!("{} {}", icon, field.as_ref().unwrap()).color(color));
@@ -70,6 +76,7 @@ impl InformationStruct {
 
             uptime: compound_duration::format_dhms(sys.uptime()),
 
+            // Tracks the SHELL env var and trims the last item from the resultant fs path.
             shell: {
                 let var = env::var("SHELL");
                 if var.is_ok() {
@@ -86,6 +93,8 @@ impl InformationStruct {
             gpu: {
                 match sys.name().unwrap_or(String::from("Unknown System")).as_ref() {
                     "Windows" => {
+                        // On windows, we run "wmic path win32_VideoController get name" and 
+                        // the second line is our GPU name.
                         let command_output = std::process::Command::new("wmic").args(["path", "win32_VideoController", "get", "name"]).output();
                         match command_output {
                             Ok(gpu_info) => {
@@ -96,6 +105,7 @@ impl InformationStruct {
                         }
                     }
                     _ => {
+                        // On Linux or Mac, hopefully, "lspci | grep VGA | cut -d ":" -f3" gives us our GPU name.
                         let command_output = std::process::Command::new("bash").args(["-c", "lspci | grep VGA | cut -d \":\" -f3"]).output();
                         let gpu = match command_output {
                             Ok(gpu_info) => Some(String::from_utf8(gpu_info.stdout).unwrap().trim().to_owned()),
@@ -117,6 +127,9 @@ impl InformationStruct {
                 .name()
                 .unwrap_or(String::from("Unknown System"))
                 .as_ref()
+            // Getting the icon for the distro.
+            // I have NO clue if these are the strings the
+            // sys.name() function will return.
             {
                 "Alma Linux" => '',
                 "Alpine Linux" => '',
@@ -144,8 +157,11 @@ impl InformationStruct {
                     .name()
                     .unwrap_or(String::from("Unknown System"))
                     .contains("linux") {
+                        // If we don't know what it is exactly, but we know it's Linux,
+                        // just toss in good ol' Tux.
                         ''
                     } else {
+                        // If we have ZERO clue what it is, just use a question mark.
                         '?'
                     }
                 }
@@ -155,6 +171,8 @@ impl InformationStruct {
                 .name()
                 .unwrap_or(String::from("Unknown System"))
                 .as_ref()
+            // Again, I don't know whether this is what the strings will look like.
+            // Feel free to fix if it's broken on your system.
             {
                 "Linux Debian" => String::from("bright red"),
                 "FreeBSD" => String::from("red"),
@@ -178,6 +196,7 @@ mod test {
     use crate::InformationStruct;
     use std::fs;
 
+    // Self explanatory.
     #[test]
     pub fn log_gathered_data() {
         let sys_info = InformationStruct::new();
