@@ -95,12 +95,13 @@ impl InformationStruct {
                         }
                     }
                     _ => {
-                        let command_output = std::process::Command::new("lspci").args(["|", "grep", "VGA", "|", "cut", "-d", "\":\"", "-f3"]).output();
+                        let command_output = std::process::Command::new("bash").args(["-c", "lspci | grep VGA | cut -d \":\" -f3"]).output();
                         let gpu = match command_output {
-                            Ok(gpu_info) => Some(String::from_utf8(gpu_info.stdout).unwrap()),
+                            Ok(gpu_info) => Some(String::from_utf8(gpu_info.stdout).unwrap().trim().to_owned()),
                             Err(_) => None,
                         };
                         if gpu == Some(String::from("")) {
+                            println!("GPU: {}", gpu.unwrap());
                             None
                         } else {
                             gpu
