@@ -1,5 +1,7 @@
 # oxidefetch
-Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!
+Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
+
+![alt text](image.png "Title")  
 
 ### Why Oxidefetch?
 Neofetch, being a BASH script, has a few downsides in my opinion.  
