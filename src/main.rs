@@ -134,7 +134,7 @@ impl InformationStruct {
                 "Alpine Linux" => '',
                 "Arch Linux" => '',
                 "CentOS" => '',
-                "Linux Debian" => '',
+                "Debian GNU/Linux" => '',
                 "ElementaryOS" => '',
                 "EndeavourOS" => '',
                 "Fedora Linux" => '',
