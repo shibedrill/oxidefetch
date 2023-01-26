@@ -14,7 +14,7 @@ I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
 ### Dependencies (Build/Install)
 To build Oxidefetch, you need Cargo. You can use Cargo to automatically build and install it like so:
 ```cargo install --git https://github.com/shibedrill/oxidefetch```.  
-From there, it *should* be in your PATH. If not, add ```~/.cargo/bin``` to your PATH. If you do not already have Cargo installed 
+From there, it *should* be in your PATH. If not, add ```source ~/.cargo/env``` to your profile, or add ```~/.cargo/bin``` to your $PATH. If you do not already have Cargo installed 
 on your system, you can do so by installing Rustup- either via the [instructions on their website](https://doc.rust-lang.org/cargo/getting-started/installation.html "instructions on their website") or via your system package manager.
 
 ### Dependencies (Runtime)
