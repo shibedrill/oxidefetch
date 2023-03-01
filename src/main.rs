@@ -59,7 +59,7 @@ struct InformationStruct {
     kernel_ver: Option<String>,
     uptime: String,
     shell: Option<String>,
-    _terminal: Option<String>,
+    terminal: Option<String>,
     cpu: String,
     gpu: Option<String>,
     memory: String,
@@ -94,7 +94,7 @@ impl InformationStruct {
                 }
             },
 
-            _terminal: None, // TODO: Add terminal detection.
+            terminal: None, // TODO: Add terminal detection.
 
             cpu: String::from(sys.cpus()[0].brand()),
 

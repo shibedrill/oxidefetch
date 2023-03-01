@@ -1,4 +1,4 @@
-# oxidefetch 1.0.1
+# oxidefetch 1.1.0
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Title")  
@@ -35,3 +35,4 @@ regarding your real name, IP, location, etc. You can look at the file it generat
 ### Changelog
 1.0.0: Official full stable release   
 1.0.1: Fixed distro name for Debian GNU/Linux. Logo & color works now.
+1.1.0: Refactored some poorly written typing, and added support for memory.
