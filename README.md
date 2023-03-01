@@ -1,4 +1,4 @@
-# oxidefetch
+# oxidefetch 1.0.1
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Title")  
@@ -14,7 +14,7 @@ I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
 ### Dependencies (Build/Install)
 To build Oxidefetch, you need Cargo. You can use Cargo to automatically build and install it like so:
 ```cargo install --git https://github.com/shibedrill/oxidefetch```.  
-From there, it *should* be in your PATH. If not, add ```~/.cargo/bin``` to your PATH. If you do not already have Cargo installed 
+From there, it *should* be in your PATH. If not, add ```source ~/.cargo/env``` to your profile, or add ```~/.cargo/bin``` to your $PATH. If you do not already have Cargo installed 
 on your system, you can do so by installing Rustup- either via the [instructions on their website](https://doc.rust-lang.org/cargo/getting-started/installation.html "instructions on their website") or via your system package manager.
 
 ### Dependencies (Runtime)
@@ -31,3 +31,7 @@ with varying types of systems. I've tested Arch Linux and Windows 10, but nothin
 repo, and inside the folder, run ```cargo test -- --nocapture```, and send the resultant ```test_output.txt``` file to my 
 noreply email address, or directly to me on Discord at ```Shibe Drill#9730```. This program does NOT collect information 
 regarding your real name, IP, location, etc. You can look at the file it generates to be sure- it's all plaintext, babey.
+
+### Changelog
+1.0.0: Official full stable release   
+1.0.1: Fixed distro name for Debian GNU/Linux. Logo & color works now.

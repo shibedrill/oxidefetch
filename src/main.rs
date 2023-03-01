@@ -164,7 +164,7 @@ impl InformationStruct {
                 "Alpine Linux" => '',
                 "Arch Linux" => '',
                 "CentOS" => '',
-                "Linux Debian" => '',
+                "Debian GNU/Linux" => '',
                 "ElementaryOS" => '',
                 "EndeavourOS" => '',
                 "Fedora Linux" => '',
@@ -203,7 +203,7 @@ impl InformationStruct {
             // Again, I don't know whether this is what the strings will look like.
             // Feel free to fix if it's broken on your system.
             {
-                "Linux Debian" => String::from("bright red"),
+                "Debian GNU/Linux" => String::from("bright red"),
                 "FreeBSD" => String::from("red"),
                 "Ubuntu Linux" => String::from("orange"),
                 "Arch Linux" | "Windows" | "PopOS" => String::from("bright cyan"),
