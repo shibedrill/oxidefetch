@@ -1,17 +1,17 @@
-
 // Code by River. Copy if you want, but don't say it's yours.
 
+use byte_unit::*;
 use chrono::*;
 use colored::*;
-use sysinfo::*;
-use std::env;
-use whoami;
 use compound_duration;
+use std::env;
+use sysinfo::*;
+use whoami;
 
 fn main() {
     // Generate system info struct
     let sys_info = InformationStruct::new();
-    
+
     // Format the date and time
     let datetime_formatted = format!(
         "{}, {}",
@@ -23,22 +23,30 @@ fn main() {
 
     println!("{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '', &Some(datetime_formatted), "bright yellow");
-    color_print("Host:\t", '', &Some(format!("{}@{}", sys_info.username, sys_info.hostname)), "purple");
+    color_print(
+        "Host:\t",
+        '',
+        &Some(format!("{}@{}", sys_info.username, sys_info.hostname)),
+        "purple",
+    );
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
     color_print("Ver:\t", '', &sys_info.os_ver, "bright red");
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright black");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
-    color_print("GPU:\t", '', &sys_info.gpu, "bright green")
-
+    color_print("GPU:\t", '', &sys_info.gpu, "bright green");
+    color_print("Memory:\t", '', &Some(sys_info.memory), "bright blue");
 }
 
 fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
     // If the field is missing, it won't print.
     if field.is_some() {
         //print!("{} ", field_title.bright_white());
-        println!("{}", format!("{} {}", icon, field.as_ref().unwrap()).color(color));
+        println!(
+            "{}",
+            format!("{} {}", icon, field.as_ref().unwrap()).color(color)
+        );
     }
 }
 
@@ -51,10 +59,10 @@ struct InformationStruct {
     kernel_ver: Option<String>,
     uptime: String,
     shell: Option<String>,
-    _terminal: String,
+    _terminal: Option<String>,
     cpu: String,
     gpu: Option<String>,
-    _memory: String,
+    memory: String,
     icon: char,
     color: String,
 }
@@ -86,29 +94,47 @@ impl InformationStruct {
                 }
             },
 
-            _terminal: String::from("Unknown Terminal"), // TODO: Add terminal detection.
+            _terminal: None, // TODO: Add terminal detection.
 
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
-                match sys.name().unwrap_or(String::from("Unknown System")).as_ref() {
+                match sys
+                    .name()
+                    .unwrap_or(String::from("Unknown System"))
+                    .as_ref()
+                {
                     "Windows" => {
-                        // On windows, we run "wmic path win32_VideoController get name" and 
+                        // On windows, we run "wmic path win32_VideoController get name" and
                         // the second line is our GPU name.
-                        let command_output = std::process::Command::new("wmic").args(["path", "win32_VideoController", "get", "name"]).output();
+                        let command_output = std::process::Command::new("wmic")
+                            .args(["path", "win32_VideoController", "get", "name"])
+                            .output();
                         match command_output {
                             Ok(gpu_info) => {
                                 let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
-                                Some(String::from(gpu_info_as_string.unwrap().split("\n").collect::<Vec<&str>>()[1]))
-                            },
+                                Some(String::from(
+                                    gpu_info_as_string
+                                        .unwrap()
+                                        .split("\n")
+                                        .collect::<Vec<&str>>()[1],
+                                ))
+                            }
                             Err(_) => None,
                         }
                     }
                     _ => {
                         // On Linux or Mac, hopefully, "lspci | grep VGA | cut -d ":" -f3" gives us our GPU name.
-                        let command_output = std::process::Command::new("bash").args(["-c", "lspci | grep VGA | cut -d \":\" -f3"]).output();
+                        let command_output = std::process::Command::new("bash")
+                            .args(["-c", "lspci | grep VGA | cut -d \":\" -f3"])
+                            .output();
                         let gpu = match command_output {
-                            Ok(gpu_info) => Some(String::from_utf8(gpu_info.stdout).unwrap().trim().to_owned()),
+                            Ok(gpu_info) => Some(
+                                String::from_utf8(gpu_info.stdout)
+                                    .unwrap()
+                                    .trim()
+                                    .to_owned(),
+                            ),
                             Err(_) => None,
                         };
                         if gpu == Some(String::from("")) {
@@ -120,7 +146,11 @@ impl InformationStruct {
                 }
             },
 
-            _memory: String::from("Unknown memory"), // TODO: Add memory detection.
+            memory: format!(
+                "{}/{}",
+                Byte::from(sys.used_memory()).get_appropriate_unit(true),
+                Byte::from(sys.total_memory()).get_appropriate_unit(true)
+            ),
 
             icon: match sys
                 .name()
@@ -210,5 +240,4 @@ mod test {
 
         assert!(result.is_ok());
     }
-
 }
