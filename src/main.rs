@@ -46,6 +46,11 @@ fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &st
     // If the field is missing, it won't print.
     if field.is_some() {
         //print!("{} ", field_title.bright_white());
+        // ^^^ UNCOMMENT THIS LINE TO ENABLE FIELD TITLES!
+        // Comment it out to disable them.
+        // TODO: Add configurability to enable or disable this without recompiling.
+        // AT LEAST make it a crate feature so people can change the setting without
+        // editing the source code.
         println!(
             "{}",
             format!("{} {}", icon, field.as_ref().unwrap()).color(color)
@@ -55,6 +60,10 @@ fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &st
 
 #[derive(Debug)]
 struct InformationStruct {
+    // Only fields whose setters can fail, are given Option<String> types.
+    // Unsure if I should coerce these fields into an Option<String> *here*, or
+    // within the args of color_print, since that function only accepts args of
+    // type Option<String>.
     username: String,
     hostname: String,
     os_name: Option<String>,
@@ -190,6 +199,7 @@ impl InformationStruct {
                     if sys
                     .name()
                     .unwrap_or(String::from("Unknown System"))
+                    .to_ascii_lowercase()
                     .contains("linux") {
                         // If we don't know what it is exactly, but we know it's Linux,
                         // just toss in good ol' Tux.
