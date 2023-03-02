@@ -23,6 +23,10 @@ OxideFetch can display all of the following information:
 - GPU  
 - Memory  
 
+### Installation  
+Download a binary for your platform, and place it in your PATH.  
+Currently, only Windows (x86) and Linux (x86) have binaries available. If you want a binary for another platform, you will have to follow the instructions to build from source.
+
 ### Dependencies 
 #### Build/Install
 To build Oxidefetch, you need Cargo. You can use Cargo to automatically build and install it like so:
