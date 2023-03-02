@@ -21,6 +21,9 @@ fn main() {
 
     println!();
 
+    // TODO: Add support to change what items print, as well as their colors.
+    // This should be done via some sort of user accessible, persistent config,
+    // and preferably can be modified via env vars.
     println!("{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '', &Some(datetime_formatted), "bright yellow");
     color_print(
@@ -115,7 +118,8 @@ impl InformationStruct {
                                 let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
                                 Some(String::from(
                                     gpu_info_as_string
-                                        .unwrap()
+                                        .unwrap() // TODO: Please figure out a way to get rid of this unwrap() call.
+                                        // I feel like I did so well avoiding unwrap calls everywhere except for here.
                                         .split("\n")
                                         .collect::<Vec<&str>>()[1],
                                 ))
@@ -159,6 +163,7 @@ impl InformationStruct {
             // Getting the icon for the distro.
             // I have NO clue if these are the strings the
             // sys.name() function will return.
+            // TODO: Validate sys.name() outputs.
             {
                 "Alma Linux" => '',
                 "Alpine Linux" => '',
