@@ -137,8 +137,9 @@ impl InformationStruct {
                         }
                     }
                     _ => {
-                        // On Linux or Mac, hopefully, "lspci | grep VGA | cut -d ":" -f3" gives us our GPU name.
-                        let command_output = std::process::Command::new("bash")
+                        // On *nix, hopefully, "lspci | grep VGA | cut -d ":" -f3" gives us our GPU name.
+                        // Since pipes can't be processed as arguments, we need to do all this in a subshell under SH.
+                        let command_output = std::process::Command::new("sh")
                             .args(["-c", "lspci | grep VGA | cut -d \":\" -f3"])
                             .output();
                         let gpu = match command_output {

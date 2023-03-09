@@ -13,3 +13,10 @@ compound_duration = "1.2.0"
 quoted-string = "0.6.1"
 sysinfo = "0.28.1"
 whoami = "1.3.0"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
