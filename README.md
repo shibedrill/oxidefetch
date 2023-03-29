@@ -48,10 +48,17 @@ repo, and inside the folder, run ```cargo test -- --nocapture```, and send the r
 noreply email address, or directly to me on Discord at ```Shibe Drill#9730```. This program does NOT collect information 
 regarding your real name, IP, location, etc. You can look at the file it generates to be sure- it's all plaintext, babey.
 
-### To Do & Roadmap
+### Bugs, Quirks, Unintended Behavior, And Other Shenanigans   
+Quirk: Depending on the amount of colons present in the `lspci` output, the GPU fields might display incorrectly. Proposed fix is to use `cut -d "VGA compatible controller: "` to trim the output of `lspci`.  
+Quirk: Multiple GPUs will display strangely. Proposed fix is to replace newlines with a comma.  
+
+### To Do & Roadmap   
+#### Semi-urgent fixes:   
+- Fix display of GPU info on systems with multiple GPUs
 #### Very near future:   
 - Add support for user configurability for entries (whether or not an entry shows, its color, units for memory and time)   
 - Add process count detection  
+- Refactor logic for cleaner code   
 - **[Complete as of 1.1.2]** Switch from `bash` to `sh` to run the GPU detection command, if possible, since `sh` is installed on every *nix system by default  
 #### Future:  
 - Add host system name detection such as "Windows Subsystem for Linux", "IdeaPad 3", "Dell Optiplex", etc.  
