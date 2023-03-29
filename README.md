@@ -1,4 +1,4 @@
-# oxidefetch 1.2.1
+# oxidefetch 1.2.2
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -75,3 +75,4 @@ No weird quirks to report at this time.
 **1.1.2:** Replaced *nix dependency on ```bash``` with dependency on ```sh```.  
 **1.2.0:** Allowed users to enable field titles as a compile-time feature. Tentative fix for GPU display issues on Linux.  
 **1.2.1:** Stable fix for GPU display quirks.  
+**1.2.2:** All GPUs should print in their own lines.

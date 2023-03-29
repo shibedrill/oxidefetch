@@ -38,7 +38,12 @@ fn main() {
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright black");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
-    color_print("GPU:\t", '', &sys_info.gpu, "bright green");
+    if let Some(gpus) = sys_info.gpu {
+        for gpu in gpus {
+            color_print("GPU:\t", '', &Some(gpu), "bright green")
+        }
+    }
+    //color_print("GPU:\t", '', &sys_info.gpu, "bright green");
     color_print("Memory:\t", '', &Some(sys_info.memory), "bright blue");
 }
 
@@ -69,7 +74,7 @@ struct InformationStruct {
     shell: Option<String>,
     terminal: Option<String>,
     cpu: String,
-    gpu: Option<String>,
+    gpu: Option<Vec<String>>,
     memory: String,
     icon: char,
     color: String,
@@ -121,13 +126,13 @@ impl InformationStruct {
                         match command_output {
                             Ok(gpu_info) => {
                                 let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
-                                Some(String::from(
+                                Some(vec![String::from(
                                     gpu_info_as_string
                                         .unwrap() // TODO: Please figure out a way to get rid of this unwrap() call.
                                         // I feel like I did so well avoiding unwrap calls everywhere except for here.
                                         .split("\n")
                                         .collect::<Vec<&str>>()[1],
-                                ))
+                                )])
                             }
                             Err(_) => None,
                         }
@@ -140,16 +145,24 @@ impl InformationStruct {
                             .output();
                         let gpu = match command_output {
                             Ok(gpu_info) => Some(
-                                String::from_utf8(gpu_info.stdout)
+                                vec![
+                                    String::from_utf8(gpu_info.stdout)
                                     .unwrap()
                                     .trim()
-                                    .replace("\n", ", ")
-                                    .to_owned(),
+                                    .split("\n")
+                                    .to_owned()
+                                    .collect(),
+                                ]
                             ),
                             Err(_) => None,
                         };
-                        if gpu == Some(String::from("")) {
-                            None
+                        // If the GPU vec is empty we just return None
+                        if let Some(gpu_check) = &gpu {
+                            if gpu_check.len() == 0 {
+                                None
+                            } else {
+                                gpu
+                            }
                         } else {
                             gpu
                         }
