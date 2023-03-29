@@ -133,10 +133,10 @@ impl InformationStruct {
                         }
                     }
                     _ => {
-                        // On *nix, hopefully, "lspci | grep VGA | cut -d "VGA compatible controller: "" gives us our GPU name.
+                        // On *nix, hopefully, "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'" gives us our GPU name.
                         // Since pipes can't be processed as arguments, we need to do all this in a subshell under SH.
                         let command_output = std::process::Command::new("sh")
-                            .args(["-c", "lspci | grep VGA | cut -d \"VGA compatible controller: \""])
+                            .args(["-c", "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'"])
                             .output();
                         let gpu = match command_output {
                             Ok(gpu_info) => Some(
