@@ -49,12 +49,11 @@ noreply email address, or directly to me on Discord at ```Shibe Drill#9730```. T
 regarding your real name, IP, location, etc. You can look at the file it generates to be sure- it's all plaintext, babey.
 
 ### Bugs, Quirks, Unintended Behavior, And Other Shenanigans   
-Quirk: Depending on the amount of colons present in the `lspci` output, the GPU fields might display incorrectly. Proposed fix is to use `cut -d "VGA compatible controller: "` to trim the output of `lspci`.  
-Quirk: Multiple GPUs will display strangely. Proposed fix is to replace newlines with a comma.  
+No weird quirks to report at this time.  
 
 ### To Do & Roadmap   
 #### Semi-urgent fixes:   
-- Fix display of GPU info on systems with multiple GPUs
+- **[Fixed as of 1.2.1]** Fix display of GPU info on systems with multiple GPUs  
 #### Very near future:   
 - Add support for user configurability for entries (whether or not an entry shows, its color, units for memory and time)   
 - Add process count detection  
@@ -75,4 +74,4 @@ Quirk: Multiple GPUs will display strangely. Proposed fix is to replace newlines
 **1.1.1:** Made sure that linux system detection won't fail if Linux has a capital L.  
 **1.1.2:** Replaced *nix dependency on ```bash``` with dependency on ```sh```.  
 **1.2.0:** Allowed users to enable field titles as a compile-time feature. Tentative fix for GPU display issues on Linux.  
-**1.2.1:** Possibly stable fix for GPU display quirks.
+**1.2.1:** Stable fix for GPU display quirks.  
