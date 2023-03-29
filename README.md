@@ -74,5 +74,5 @@ Quirk: Multiple GPUs will display strangely. Proposed fix is to replace newlines
 **1.1.0:** Refactored some poorly written typing, and added support for memory.  
 **1.1.1:** Made sure that linux system detection won't fail if Linux has a capital L.  
 **1.1.2:** Replaced *nix dependency on ```bash``` with dependency on ```sh```.  
-**1.2.0:** Allowed users to enable field titles as a compile-time feature. Tentative fix for GPU display issues on Linux.
+**1.2.0:** Allowed users to enable field titles as a compile-time feature. Tentative fix for GPU display issues on Linux.  
 **1.2.1:** Possibly stable fix for GPU display quirks.
