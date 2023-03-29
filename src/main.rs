@@ -45,12 +45,8 @@ fn main() {
 fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
     // If the field is missing, it won't print.
     if field.is_some() {
-        //print!("{} ", field_title.bright_white());
-        // ^^^ UNCOMMENT THIS LINE TO ENABLE FIELD TITLES!
-        // Comment it out to disable them.
-        // TODO: Add configurability to enable or disable this without recompiling.
-        // AT LEAST make it a crate feature so people can change the setting without
-        // editing the source code.
+        #[cfg(feature = "field-titles")]
+        print!("{} ", field_title.bright_white());
         println!(
             "{}",
             format!("{} {}", icon, field.as_ref().unwrap()).color(color)
@@ -137,16 +133,17 @@ impl InformationStruct {
                         }
                     }
                     _ => {
-                        // On *nix, hopefully, "lspci | grep VGA | cut -d ":" -f3" gives us our GPU name.
+                        // On *nix, hopefully, "lspci | grep VGA | cut -d "VGA compatible controller: "" gives us our GPU name.
                         // Since pipes can't be processed as arguments, we need to do all this in a subshell under SH.
                         let command_output = std::process::Command::new("sh")
-                            .args(["-c", "lspci | grep VGA | cut -d \":\" -f3"])
+                            .args(["-c", "lspci | grep VGA | cut -d \"VGA compatible controller: \""])
                             .output();
                         let gpu = match command_output {
                             Ok(gpu_info) => Some(
                                 String::from_utf8(gpu_info.stdout)
                                     .unwrap()
                                     .trim()
+                                    .replace("\n", ", ")
                                     .to_owned(),
                             ),
                             Err(_) => None,

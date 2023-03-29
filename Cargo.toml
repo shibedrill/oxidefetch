@@ -1,6 +1,6 @@
 [package]
 name = "oxidefetch"
-version = "1.1.2"
+version = "1.2.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -20,3 +20,6 @@ opt-level = "z"
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[features]
+field-titles = []
