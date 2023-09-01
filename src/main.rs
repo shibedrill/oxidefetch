@@ -25,7 +25,7 @@ fn main() {
     // This should be done via some sort of user accessible, persistent config,
     // and preferably can be modified via env vars.
     println!("{}", String::from(">>> OxideFetch  <<<").red());
-    color_print("Date:\t", '', &Some(datetime_formatted), "bright yellow");
+    color_print("Date:\t", '󰃰', &Some(datetime_formatted), "bright yellow");
     color_print(
         "Host:\t",
         '',
@@ -40,11 +40,11 @@ fn main() {
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
     if let Some(gpus) = sys_info.gpu {
         for gpu in gpus {
-            color_print("GPU:\t", '', &Some(gpu), "bright green")
+            color_print("GPU:\t", '󰍹', &Some(gpu), "bright green")
         }
     }
     //color_print("GPU:\t", '', &sys_info.gpu, "bright green");
-    color_print("Memory:\t", '', &Some(sys_info.memory), "bright blue");
+    color_print("Memory:\t", '󰍛', &Some(sys_info.memory), "bright blue");
 }
 
 fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
@@ -143,29 +143,38 @@ impl InformationStruct {
                         let command_output = std::process::Command::new("sh")
                             .args(["-c", "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'"])
                             .output();
-                        let gpu = match command_output {
-                            Ok(gpu_info) => Some(
-                                vec![
-                                    String::from_utf8(gpu_info.stdout)
-                                    .unwrap()
-                                    .trim()
-                                    .split("\n")
-                                    .to_owned()
-                                    .collect(),
-                                ]
-                            ),
+
+                        // Check if running the command resulted in an error
+                        match command_output {
                             Err(_) => None,
-                        };
-                        // If the GPU vec is empty we just return None
-                        if let Some(gpu_check) = &gpu {
-                            if gpu_check.len() == 0 {
-                                None
-                            } else {
-                                gpu
+                            Ok(output_bytes) => {
+                                match String::from_utf8(output_bytes.stdout) {
+                                    Err(_) => None,
+                                    Ok(output_string) => {
+                                        match output_string.as_ref() {
+                                            "" => None,
+                                            _ => {
+                                                Some(vec![
+                                                    output_string
+                                                    .split("\n")
+                                                    .collect()
+                                                ])
+                                            }
+                                        }
+                                    }
+                                }
+                                
+                                
                             }
-                        } else {
-                            gpu
                         }
+                        // Convert the output bytes to a String
+
+                        // Trim the string and check if it's empty or whitespace
+
+                        // Return None if the string is empty or whitespace
+
+                        // Split the string into lines and return it
+
                     }
                 }
             },
