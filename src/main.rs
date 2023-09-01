@@ -144,7 +144,8 @@ impl InformationStruct {
                             .args(["-c", "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'"])
                             .output();
 
-                        // Check if running the command resulted in an error
+                        // Check if running the command resulted in an error. If not, convert to a vector.
+                        // TODO: Please fix this horrible logic. It needs refactoring.
                         match command_output {
                             Err(_) => None,
                             Ok(output_bytes) => {
@@ -163,18 +164,8 @@ impl InformationStruct {
                                         }
                                     }
                                 }
-                                
-                                
                             }
                         }
-                        // Convert the output bytes to a String
-
-                        // Trim the string and check if it's empty or whitespace
-
-                        // Return None if the string is empty or whitespace
-
-                        // Split the string into lines and return it
-
                     }
                 }
             },
