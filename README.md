@@ -8,7 +8,7 @@ Neofetch, being a BASH script, has a few downsides in my opinion.
 1: It's slow.  
 2: It only works on platforms which have the BASH shell.  
 3: It's kinda big, and I like having more compact info.  
-As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, and BLAZINGLY fast. 
+As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, cross-platform, and BLAZINGLY fast. 
 I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
 
 ### Features  
@@ -45,7 +45,7 @@ GPU detection runs on Windows without any dependencies.)
 I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people 
 with varying types of systems. I've tested Arch Linux and Windows 10, but nothing else. To help, you can kindly clone this 
 repo, and inside the folder, run ```cargo test -- --nocapture```, and send the resultant ```test_output.txt``` file to my 
-noreply email address, or directly to me on Discord at ```Shibe Drill#9730```. This program does NOT collect information 
+noreply email address, or directly to me on Discord at ```@shibedrill```. This program does NOT collect information 
 regarding your real name, IP, location, etc. You can look at the file it generates to be sure- it's all plaintext, babey.
 
 ### Bugs, Quirks, Unintended Behavior, And Other Shenanigans   
