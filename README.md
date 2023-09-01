@@ -75,5 +75,5 @@ No weird quirks to report at this time.
 **1.1.2:** Replaced *nix dependency on ```bash``` with dependency on ```sh```.  
 **1.2.0:** Allowed users to enable field titles as a compile-time feature. Tentative fix for GPU display issues on Linux.  
 **1.2.1:** Stable fix for GPU display quirks.  
-**1.2.2:** All GPUs should print in their own lines.
+**1.2.2:** All GPUs should print in their own lines.  
 **1.3.0:** Tentative fix for issue where empty GPU info line might print on Linux.
