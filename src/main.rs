@@ -57,7 +57,7 @@ fn main() {
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
     color_print("Ver:\t", '', &sys_info.os_ver, "bright red");
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
-    color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright black");
+    color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
     if let Some(gpus) = sys_info.gpu {
