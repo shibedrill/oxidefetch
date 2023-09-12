@@ -32,7 +32,7 @@ use whoami;
 
 fn main() {
     // Generate system info struct
-    let sys_info = InformationStruct::new();
+    let sys_info = Information::new();
 
     // Format the date and time
     let datetime_formatted = format!(
@@ -41,12 +41,10 @@ fn main() {
         Utc::now().format("%H:%M %Y-%m-%d")
     );
 
-    println!();
-
     // TODO: Add support to change what items print, as well as their colors.
     // This should be done via some sort of user accessible, persistent config,
     // and preferably can be modified via env vars.
-    println!("{}", String::from(">>> OxideFetch  <<<").red());
+    println!("\n{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '󰃰', &Some(datetime_formatted), "bright yellow");
     color_print(
         "Host:\t",
@@ -60,11 +58,14 @@ fn main() {
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
-    if let Some(gpus) = sys_info.gpu {
+
+    if sys_info.gpu.is_some() {
+        let gpus = sys_info.gpu.unwrap();
         for gpu in gpus {
             color_print("GPU:\t", '󰍹', &Some(gpu), "bright green")
         }
     }
+
     //color_print("GPU:\t", '', &sys_info.gpu, "bright green");
     color_print("Memory:\t", '󰍛', &Some(sys_info.memory), "bright blue");
 }
@@ -82,7 +83,7 @@ fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &st
 }
 
 #[derive(Debug)]
-struct InformationStruct {
+struct Information {
     // Only fields whose setters can fail, are given Option<String> types.
     // Unsure if I should coerce these fields into an Option<String> *here*, or
     // within the args of color_print, since that function only accepts args of
@@ -102,7 +103,7 @@ struct InformationStruct {
     color: String,
 }
 
-impl InformationStruct {
+impl Information {
     fn new() -> Self {
         let mut sys = System::new_all();
         sys.refresh_all();
@@ -270,13 +271,13 @@ impl InformationStruct {
 #[cfg(test)]
 mod test {
 
-    use crate::InformationStruct;
+    use crate::Information;
     use std::fs;
 
     // Self explanatory.
     #[test]
     pub fn log_gathered_data() {
-        let sys_info = InformationStruct::new();
+        let sys_info = Information::new();
         let data_string = format!("{:#?}", sys_info);
         let result = fs::write("./test_output.txt", data_string);
 
