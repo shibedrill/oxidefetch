@@ -1,5 +1,22 @@
 use std::env;
+use std::collections::HashMap;
+use lazy_static::lazy_static;
 use sysinfo::{Pid, PidExt, ProcessExt, System, SystemExt};
+
+lazy_static! {
+    static ref PRETTY_NAMES: HashMap<&'static str, &'static str> = {
+        let mut m = HashMap::new();
+        m.insert("cmd", "Command Prompt");
+        m.insert("powershell", "PowerShell");
+        m.insert("konsole", "Konsole");
+        m.insert("gnome-terminal", "GNOME Terminal");
+        m.insert("xterm", "XTerm");
+        m.insert("xfce4-terminal", "XFCE Terminal");
+        m.insert("kitty", "KiTTY");
+        m.insert("alacritty", "Alacritty");
+        m
+    };
+}
 
 // Allows detection of shells that host themselves (i.e. Command Prompt).
 const SELF_HOSTED_SHELLS: [&str; 2] = [
@@ -95,7 +112,15 @@ pub fn get_terminal() -> Option<String> {
 
     return match name {
         Some(f) => {
-            Some(f.split(".").nth(0).unwrap().to_string())
+            // Remove the file extension.
+            let mut res = f.split(".").nth(0).unwrap().to_string();
+
+            // Try to get a "prettier name".
+            if PRETTY_NAMES.contains_key(res.as_str()) {
+                res = PRETTY_NAMES.get(res.as_str()).unwrap().to_string();
+            }
+
+            Some(res)
         },
         None => None,
     }
