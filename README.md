@@ -1,4 +1,4 @@
-# oxidefetch 1.3.2
+# oxidefetch 1.4.0
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -10,6 +10,9 @@ Neofetch, being a BASH script, has a few downsides in my opinion.
 3: It's kinda big, and I like having more compact info.  
 As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, cross-platform, and BLAZINGLY fast. 
 I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
+
+### Special Thanks
+The most heartfelt of thanks goes out to NamedNeon, who contributed the code to perform terminal detection.  
 
 ### Features  
 OxideFetch can display all of the following information:  
@@ -23,6 +26,7 @@ OxideFetch can display all of the following information:
 - CPU  
 - GPU  
 - Memory  
+- Terminal emulator  
 
 ### Installation  
 Download a binary for your platform, and place it in your PATH.  
@@ -64,6 +68,7 @@ No weird quirks to report at this time.
 - Add host system name detection such as "Windows Subsystem for Linux", "IdeaPad 3", "Dell Optiplex", etc.  
 - Add package count/package manager detection  
 - Crosstest on more distributions to verify `sys.name()` outputs  
+- Refactor GPU detection logic into separate crate, remove dependencies on `sh` and `lspci`
 #### Distant future:
 - More extensible user configuration for entry formatting  
 
@@ -77,7 +82,8 @@ No weird quirks to report at this time.
 **1.2.1:** Stable fix for GPU display quirks.  
 **1.2.2:** All GPUs should print in their own lines.  
 **1.3.0:** Tentative fix for issue where empty GPU info line might print on Linux.  
-**1.3.2:** Changed color of time output to be more visible on gray terminals.
+**1.3.2:** Changed color of time output to be more visible on gray terminals.  
+**1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
