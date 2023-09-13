@@ -22,6 +22,8 @@ SOFTWARE.
 
 */
 
+mod terminal;
+
 use byte_unit::*;
 use chrono::*;
 use colored::*;
@@ -29,6 +31,7 @@ use compound_duration;
 use std::env;
 use sysinfo::*;
 use whoami;
+use crate::terminal::get_terminal;
 
 fn main() {
     // Generate system info struct
@@ -57,6 +60,7 @@ fn main() {
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
+    color_print("Terminal:\t", '', &sys_info.terminal, "lime green");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
 
     if sys_info.gpu.is_some() {
@@ -95,7 +99,7 @@ struct Information {
     kernel_ver: Option<String>,
     uptime: String,
     shell: Option<String>,
-    _terminal: Option<String>,
+    terminal: Option<String>,
     cpu: String,
     gpu: Option<Vec<String>>,
     memory: String,
@@ -109,15 +113,10 @@ impl Information {
         sys.refresh_all();
         Self {
             username: whoami::username(),
-
             hostname: whoami::hostname(),
-
             os_name: sys.name(),
-
             os_ver: sys.os_version(),
-
             kernel_ver: sys.kernel_version(),
-
             uptime: compound_duration::format_dhms(sys.uptime()),
 
             // Tracks the SHELL env var and trims the last item from the resultant fs path.
@@ -130,8 +129,7 @@ impl Information {
                 }
             },
 
-            _terminal: None, // TODO: Add terminal detection.
-
+            terminal: get_terminal(), // TODO: Add terminal detection.
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
@@ -273,6 +271,7 @@ mod test {
 
     use crate::Information;
     use std::fs;
+    use crate::terminal::get_terminal;
 
     // Self explanatory.
     #[test]
