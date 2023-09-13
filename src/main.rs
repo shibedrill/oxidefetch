@@ -22,6 +22,8 @@ SOFTWARE.
 
 */
 
+mod terminal;
+
 use byte_unit::*;
 use chrono::*;
 use colored::*;
@@ -29,10 +31,11 @@ use compound_duration;
 use std::env;
 use sysinfo::*;
 use whoami;
+use crate::terminal::get_terminal;
 
 fn main() {
     // Generate system info struct
-    let sys_info = InformationStruct::new();
+    let sys_info = Information::new();
 
     // Format the date and time
     let datetime_formatted = format!(
@@ -41,12 +44,10 @@ fn main() {
         Utc::now().format("%H:%M %Y-%m-%d")
     );
 
-    println!();
-
     // TODO: Add support to change what items print, as well as their colors.
     // This should be done via some sort of user accessible, persistent config,
     // and preferably can be modified via env vars.
-    println!("{}", String::from(">>> OxideFetch  <<<").red());
+    println!("\n{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '󰃰', &Some(datetime_formatted), "bright yellow");
     color_print(
         "Host:\t",
@@ -59,12 +60,16 @@ fn main() {
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
+    color_print("Terminal:\t", '', &sys_info.terminal, "bright green");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
-    if let Some(gpus) = sys_info.gpu {
+
+    if sys_info.gpu.is_some() {
+        let gpus = sys_info.gpu.unwrap();
         for gpu in gpus {
             color_print("GPU:\t", '󰍹', &Some(gpu), "bright green")
         }
     }
+
     //color_print("GPU:\t", '', &sys_info.gpu, "bright green");
     color_print("Memory:\t", '󰍛', &Some(sys_info.memory), "bright blue");
 }
@@ -82,7 +87,7 @@ fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &st
 }
 
 #[derive(Debug)]
-struct InformationStruct {
+struct Information {
     // Only fields whose setters can fail, are given Option<String> types.
     // Unsure if I should coerce these fields into an Option<String> *here*, or
     // within the args of color_print, since that function only accepts args of
@@ -94,7 +99,7 @@ struct InformationStruct {
     kernel_ver: Option<String>,
     uptime: String,
     shell: Option<String>,
-    _terminal: Option<String>,
+    terminal: Option<String>,
     cpu: String,
     gpu: Option<Vec<String>>,
     memory: String,
@@ -102,21 +107,31 @@ struct InformationStruct {
     color: String,
 }
 
-impl InformationStruct {
+impl Information {
     fn new() -> Self {
         let mut sys = System::new_all();
         sys.refresh_all();
+
+        let mut os_name = sys.name();
+
+        // Get full OS name for Darwin-based systems (i.e. macOS, iOS).
+        if os_name == Some("Darwin".to_string()) {
+            let long_os = sys.long_os_version();
+            if long_os.is_some() {
+                // Isolate system type from version information.
+                let long_os_split =
+                    long_os.unwrap().split_whitespace().collect::<Vec<&str>>()[0].to_string();
+
+                os_name = Some(long_os_split);
+            }
+        }
+
         Self {
             username: whoami::username(),
-
             hostname: whoami::hostname(),
-
-            os_name: sys.name(),
-
+            os_name: os_name.clone(),
             os_ver: sys.os_version(),
-
             kernel_ver: sys.kernel_version(),
-
             uptime: compound_duration::format_dhms(sys.uptime()),
 
             // Tracks the SHELL env var and trims the last item from the resultant fs path.
@@ -129,8 +144,7 @@ impl InformationStruct {
                 }
             },
 
-            _terminal: None, // TODO: Add terminal detection.
-
+            terminal: get_terminal(),
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
@@ -198,8 +212,7 @@ impl InformationStruct {
                 Byte::from(sys.total_memory()).get_appropriate_unit(true)
             ),
 
-            icon: match sys
-                .name()
+            icon: match os_name
                 .unwrap_or(String::from("Unknown System"))
                 .as_ref()
             // Getting the icon for the distro.
@@ -226,7 +239,7 @@ impl InformationStruct {
                 "Windows" => '',
                 "Android" => '',
                 "iOS" => '',
-                "macOS" => '',
+                "MacOS" => '',
                 "Unknown System" => '?',
                 _ => {
                     if sys
@@ -270,13 +283,14 @@ impl InformationStruct {
 #[cfg(test)]
 mod test {
 
-    use crate::InformationStruct;
+    use crate::Information;
     use std::fs;
+    use crate::terminal::get_terminal;
 
     // Self explanatory.
     #[test]
     pub fn log_gathered_data() {
-        let sys_info = InformationStruct::new();
+        let sys_info = Information::new();
         let data_string = format!("{:#?}", sys_info);
         let result = fs::write("./test_output.txt", data_string);
 

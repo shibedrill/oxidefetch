@@ -18,7 +18,8 @@ OxideFetch can display all of the following information:
 - Operating system name, symbol, and matching color  
 - Kernel version  
 - Uptime  
-- Shell  
+- Shell
+- Terminal
 - CPU  
 - GPU  
 - Memory  
@@ -63,8 +64,7 @@ No weird quirks to report at this time.
 - Add host system name detection such as "Windows Subsystem for Linux", "IdeaPad 3", "Dell Optiplex", etc.  
 - Add package count/package manager detection  
 - Crosstest on more distributions to verify `sys.name()` outputs  
-#### Distant future:  
-- Add terminal emulator detection by walking up the process tree  
+#### Distant future:
 - More extensible user configuration for entry formatting  
 
 ### Changelog
