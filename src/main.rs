@@ -129,7 +129,7 @@ impl Information {
                 }
             },
 
-            terminal: get_terminal(), // TODO: Add terminal detection.
+            terminal: get_terminal(),
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
