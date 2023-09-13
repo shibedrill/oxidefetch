@@ -24,7 +24,7 @@ const SELF_HOSTED_SHELLS: [&str; 2] = [
     "powershell.exe"
 ];
 
-macro_rules! env_to_name {
+macro_rules! match_env_to_terminal {
     ($env: expr, $name: expr) => {
         match env::var($env) {
             Ok(_) => return Some($name.to_string()),
@@ -47,11 +47,11 @@ pub fn get_terminal() -> Option<String> {
         Err(_) => (),
     };
 
-    env_to_name!("ConEmuPID", "ConEmu");
-    env_to_name!("WT_SESSION", "Windows Terminal");
-    env_to_name!("SSH_CONNECTION", "SSH");
-    env_to_name!("tw52", "TosWin2");
-    env_to_name!("tw100", "TosWin2");
+    match_env_to_terminal!("ConEmuPID", "ConEmu");
+    match_env_to_terminal!("WT_SESSION", "Windows Terminal");
+    match_env_to_terminal!("SSH_CONNECTION", "SSH");
+    match_env_to_terminal!("tw52", "TosWin2");
+    match_env_to_terminal!("tw100", "TosWin2");
 
     let mut pid = Pid::from_u32(std::process::id());
     let shell = match env::var("SHELL") {
