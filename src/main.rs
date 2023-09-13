@@ -129,7 +129,7 @@ impl Information {
         Self {
             username: whoami::username(),
             hostname: whoami::hostname(),
-            os_name,
+            os_name: os_name.clone(),
             os_ver: sys.os_version(),
             kernel_ver: sys.kernel_version(),
             uptime: compound_duration::format_dhms(sys.uptime()),
@@ -212,8 +212,7 @@ impl Information {
                 Byte::from(sys.total_memory()).get_appropriate_unit(true)
             ),
 
-            icon: match sys
-                .name()
+            icon: match os_name
                 .unwrap_or(String::from("Unknown System"))
                 .as_ref()
             // Getting the icon for the distro.
