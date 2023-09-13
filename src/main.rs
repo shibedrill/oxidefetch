@@ -60,7 +60,7 @@ fn main() {
     color_print("Kernel:\t", '', &sys_info.kernel_ver, "bright blue");
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
-    color_print("Terminal:\t", '', &sys_info.terminal, "bright green");
+    color_print("Terminal:\t", '', &sys_info.terminal, "magenta");
     color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
 
     if sys_info.gpu.is_some() {

@@ -1,4 +1,4 @@
-# oxidefetch 1.4.0
+# oxidefetch 1.4.1
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -83,7 +83,8 @@ No weird quirks to report at this time.
 **1.2.2:** All GPUs should print in their own lines.  
 **1.3.0:** Tentative fix for issue where empty GPU info line might print on Linux.  
 **1.3.2:** Changed color of time output to be more visible on gray terminals.  
-**1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.
+**1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.  
+**1.4.1:** Changed terminal color to match shell color.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
