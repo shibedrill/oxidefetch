@@ -111,10 +111,25 @@ impl Information {
     fn new() -> Self {
         let mut sys = System::new_all();
         sys.refresh_all();
+
+        let mut os_name = sys.name();
+
+        // Get full OS name for Darwin-based systems (i.e. macOS, iOS).
+        if os_name == Some("Darwin".to_string()) {
+            let long_os = sys.long_os_version();
+            if long_os.is_some() {
+                // Isolate system type from version information.
+                let long_os_split =
+                    long_os.unwrap().split_whitespace().collect::<Vec<&str>>()[0].to_string();
+
+                os_name = Some(long_os_split);
+            }
+        }
+
         Self {
             username: whoami::username(),
             hostname: whoami::hostname(),
-            os_name: sys.name(),
+            os_name,
             os_ver: sys.os_version(),
             kernel_ver: sys.kernel_version(),
             uptime: compound_duration::format_dhms(sys.uptime()),
@@ -225,7 +240,7 @@ impl Information {
                 "Windows" => '',
                 "Android" => '',
                 "iOS" => '',
-                "macOS" => '',
+                "MacOS" => '',
                 "Unknown System" => '?',
                 _ => {
                     if sys
