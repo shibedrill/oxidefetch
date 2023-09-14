@@ -62,7 +62,8 @@ No weird quirks to report at this time.
 #### Very near future:   
 - Add support for user configurability for entries (whether or not an entry shows, its color, units for memory and time)   
 - Add process count detection  
-- Refactor logic for cleaner code   
+- Refactor logic for cleaner code  
+- Edit *nix GPU detection to include GPUs that do not include "VGA Compatible Controller" in the name  
 - **[Complete as of 1.1.2]** Switch from `bash` to `sh` to run the GPU detection command, if possible, since `sh` is installed on every *nix system by default  
 #### Future:  
 - Add host system name detection such as "Windows Subsystem for Linux", "IdeaPad 3", "Dell Optiplex", etc.  
