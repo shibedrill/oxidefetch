@@ -1,4 +1,4 @@
-# oxidefetch 1.4.1
+# oxidefetch 1.4.2
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -47,11 +47,21 @@ GPU detection runs on Windows without any dependencies.)
 3: Nerd fonts symbols are used in the output. Install a patched font on  your system, or patch an already installed font.
 
 ### How you can help with the project
-I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people 
-with varying types of systems. I've tested Arch Linux and Windows 10, but nothing else. To help, you can kindly clone this 
-repo, and inside the folder, run ```cargo test -- --nocapture```, and send the resultant ```test_output.txt``` file to my 
-noreply email address, or directly to me on Discord at ```@shibedrill```. This program does NOT collect information 
-regarding your real name, IP, location, etc. You can look at the file it generates to be sure- it's all plaintext, babey.
+I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people with varying types of systems. I've tested a few, but there's some I'm unable to test. To help, you can kindly clone this repo, and inside the folder, run ```cargo test -- --nocapture```, and send the resultant ```test_output.txt``` file to my noreply email address, or directly to me on Discord at ```@shibedrill```. This program does NOT collect information regarding your real name, IP, location, hardware serial numbers, etc. You can look at the file it generates to be sure- it's all plaintext, babey.  
+#### Tested distributions/platforms:
+- Alma Linux
+- Alpine Linux
+- Arch Linux
+- CentOS
+- Debian
+- Fedora
+- Gentoo
+- Kali Linux
+- Linux Mint
+- openSUSE Leap
+- openSUSE Tumbleweed
+- Ubuntu
+- Windows
 
 ### Bugs, Quirks, Unintended Behavior, And Other Shenanigans   
 No weird quirks to report at this time.  
@@ -85,6 +95,7 @@ No weird quirks to report at this time.
 **1.3.2:** Changed color of time output to be more visible on gray terminals.  
 **1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.  
 **1.4.1:** Changed terminal color to match shell color.  
+**1.4.2:** Updated colors and logos of a few distros. They will now display correctly.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.

@@ -1,6 +1,6 @@
 /*
 
-Copyright 2023 shibedrill
+Copyright 2023 shibedrill & Namedneon
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of 
 this software and associated documentation files (the “Software”), to deal in 
@@ -220,22 +220,22 @@ impl Information {
             // sys.name() function will return.
             // TODO: Validate sys.name() outputs.
             {
-                "Alma Linux" => '',
+                "AlmaLinux" => '',
                 "Alpine Linux" => '',
                 "Arch Linux" => '',
-                "CentOS" => '',
+                "CentOS Linux" | "CentOS Stream" => '',
                 "Debian GNU/Linux" => '',
                 "ElementaryOS" => '',
                 "EndeavourOS" => '',
                 "Fedora Linux" => '',
                 "FreeBSD" => '',
-                "Gentoo Linux" => '',
-                "Kali Linux" => '',
+                "Gentoo" => '',
+                "Kali GNU/Linux" => '',
                 "Linux Mint" => '',
                 "Manjaro Linux" => '',
-                "OpenSUSE" => '',
+                "openSUSE Tumbleweed" | "openSUSE Leap" => '',
                 "PopOS" => '',
-                "Ubuntu Linux" => '',
+                "Ubuntu" => '',
                 "Windows" => '',
                 "Android" => '',
                 "iOS" => '',
@@ -266,13 +266,13 @@ impl Information {
             {
                 "Debian GNU/Linux" => String::from("bright red"),
                 "FreeBSD" => String::from("red"),
-                "Ubuntu Linux" => String::from("orange"),
+                "Ubuntu" => String::from("orange"),
                 "Arch Linux" | "Windows" | "PopOS" => String::from("bright cyan"),
-                "Fedora Linux" | "Kali Linux" | "Alpine Linux" => String::from("bright blue"),
-                "OpenSUSE" | "Linux Mint" | "Android" => String::from("bright green"),
-                "EndeavourOS" | "Gentoo linux" | "CentOS" => String::from("purple"),
+                "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => String::from("bright blue"),
+                "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => String::from("bright green"),
+                "EndeavourOS" | "Gentoo" | "CentOS" | "CentOS Stream" => String::from("purple"),
                 "iOS" | "macOS" | "ElementaryOS" => String::from("bright white"),
-                "Alma Linux" => String::from("yellow"),
+                "AlmaLinux" => String::from("yellow"),
 
                 _ => String::from("bright white"),
             },
@@ -285,7 +285,6 @@ mod test {
 
     use crate::Information;
     use std::fs;
-    use crate::terminal::get_terminal;
 
     // Self explanatory.
     #[test]
