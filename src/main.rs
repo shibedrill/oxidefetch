@@ -270,7 +270,7 @@ impl Information {
                 "Arch Linux" | "Windows" | "PopOS" => String::from("bright cyan"),
                 "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => String::from("bright blue"),
                 "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => String::from("bright green"),
-                "EndeavourOS" | "Gentoo" | "CentOS" | "CentOS Stream" => String::from("purple"),
+                "EndeavourOS" | "Gentoo" | "CentOS Linux" | "CentOS Stream" => String::from("purple"),
                 "iOS" | "macOS" | "ElementaryOS" => String::from("bright white"),
                 "AlmaLinux" => String::from("yellow"),
 
