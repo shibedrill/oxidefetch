@@ -47,7 +47,7 @@ fn main() {
     // TODO: Add support to change what items print, as well as their colors.
     // This should be done via some sort of user accessible, persistent config,
     // and preferably can be modified via env vars.
-    println!("\n{}", String::from(">>> OxideFetch  <<<").red());
+    println!("{}", String::from(">>> OxideFetch  <<<").red());
     color_print("Date:\t", '󰃰', &Some(datetime_formatted), "bright yellow");
     color_print(
         "Host:\t",

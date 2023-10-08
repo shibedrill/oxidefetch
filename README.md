@@ -1,4 +1,4 @@
-# oxidefetch 1.4.2
+# oxidefetch 1.4.3
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -96,6 +96,7 @@ No weird quirks to report at this time.
 **1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.  
 **1.4.1:** Changed terminal color to match shell color.  
 **1.4.2:** Updated colors and logos of a few distros. They will now display correctly.  
+**1.4.3:** Removed newline print before information. This should be up to the user to print, using their shell profile.
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
