@@ -166,7 +166,7 @@ impl Information {
                                     gpu_info_as_string
                                         .unwrap() // TODO: Please figure out a way to get rid of this unwrap() call.
                                         // I feel like I did so well avoiding unwrap calls everywhere except for here.
-                                        .split("\n")
+                                        .lines()
                                         .collect::<Vec<&str>>()[1],
                                 )])
                             }
@@ -177,7 +177,7 @@ impl Information {
                         // On *nix, hopefully, "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'" gives us our GPU name.
                         // Since pipes can't be processed as arguments, we need to do all this in a subshell under SH.
                         let command_output = std::process::Command::new("sh")
-                            .args(["-c", "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'"])
+                            .args(["-c", "lspci | grep VGA | awk -F'VGA compatible controller: ' '{print $2}'"])
                             .output();
 
                         // Check if running the command resulted in an error. If not, convert to a vector.
@@ -191,11 +191,11 @@ impl Information {
                                         match output_string.as_ref() {
                                             "" => None,
                                             _ => {
-                                                Some(vec![
-                                                    output_string
-                                                    .split("\n")
-                                                    .collect()
-                                                ])
+                                                let mut gpu_vec = vec!();
+                                                for s in output_string.trim().split('\n') {
+                                                    gpu_vec.push(s.to_string());
+                                                }
+                                                Some(gpu_vec)
                                             }
                                         }
                                     }
