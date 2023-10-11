@@ -96,8 +96,8 @@ No weird quirks to report at this time.
 **1.4.0:** Added support for terminal detection, and fixed system detection on Darwin systems.  
 **1.4.1:** Changed terminal color to match shell color.  
 **1.4.2:** Updated colors and logos of a few distros. They will now display correctly.  
-**1.4.3:** Removed newline print before information. This should be up to the user to print, using their shell profile.
-**1.4.4:** Fixed an issue where GPUs would all print on one line.
+**1.4.3:** Removed newline print before information. This should be up to the user to print, using their shell profile.  
+**1.4.4:** Fixed an issue where GPUs would all print on one line.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
