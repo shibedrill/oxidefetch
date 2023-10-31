@@ -257,25 +257,25 @@ impl Information {
                 }
             },
 
-            color: match sys
+            color: String::from(match sys
                 .name()
                 .unwrap_or(String::from("Unknown System"))
                 .as_ref()
             // Again, I don't know whether this is what the strings will look like.
             // Feel free to fix if it's broken on your system.
             {
-                "Debian GNU/Linux" => String::from("bright red"),
-                "FreeBSD" => String::from("red"),
-                "Ubuntu" => String::from("orange"),
-                "Arch Linux" | "Windows" | "PopOS" => String::from("bright cyan"),
-                "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => String::from("bright blue"),
-                "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => String::from("bright green"),
-                "EndeavourOS" | "Gentoo" | "CentOS Linux" | "CentOS Stream" => String::from("purple"),
-                "iOS" | "macOS" | "ElementaryOS" => String::from("bright white"),
-                "AlmaLinux" => String::from("yellow"),
+                "Debian GNU/Linux" => "bright red",
+                "FreeBSD" => "red",
+                "Ubuntu" => "orange",
+                "Arch Linux" | "Windows" | "PopOS" => "bright cyan",
+                "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => "bright blue",
+                "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => "bright green",
+                "EndeavourOS" | "Gentoo" | "CentOS Linux" | "CentOS Stream" => "purple",
+                "iOS" | "macOS" | "ElementaryOS" => "bright white",
+                "AlmaLinux" => "yellow",
 
-                _ => String::from("bright white"),
-            },
+                _ => "bright white",
+            }),
         }
     }
 }
