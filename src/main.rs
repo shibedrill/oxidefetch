@@ -70,10 +70,10 @@ fn main() {
         }
     }
 
-    //color_print("GPU:\t", '', &sys_info.gpu, "bright green");
     color_print("Memory:\t", '󰍛', &Some(sys_info.memory), "bright blue");
 }
 
+#[allow(unused_variables)] // The field title var is sometimes unused due to compile time features
 fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &str) {
     // If the field is missing, it won't print.
     if field.is_some() {

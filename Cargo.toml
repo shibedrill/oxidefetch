@@ -1,10 +1,11 @@
 [package]
 name = "oxidefetch"
 description = "A fast, cross platform Fetch program for your terminal"
-version = "1.4.4"
+version = "1.4.5"
 edition = "2021"
 authors = [ "NamedNeon", "shibedrill" ]
 license = "MIT"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -27,3 +28,12 @@ panic = "abort"
 
 [features]
 field-titles = []
+
+[package.metadata.rpm]
+package = "oxidefetch"
+
+[package.metadata.rpm.cargo]
+buildflags = ["--release"]
+
+[package.metadata.rpm.targets]
+oxidefetch = { path = "/usr/bin/oxidefetch" }

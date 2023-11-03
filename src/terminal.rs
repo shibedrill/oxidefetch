@@ -84,6 +84,7 @@ pub fn get_terminal() -> Option<String> {
     };
     let shell_name = shell.split("/").last().unwrap();
 
+    #[allow(unused_assignments)]
     let mut name: Option<String> = None;
 
     let mut self_hosted = false;
