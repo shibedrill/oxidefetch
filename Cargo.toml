@@ -1,7 +1,7 @@
 [package]
 name = "oxidefetch"
 description = "A fast, cross platform Fetch program for your terminal"
-version = "1.4.6"
+version = "1.4.7"
 edition = "2021"
 authors = [ "NamedNeon", "shibedrill" ]
 license = "MIT"
@@ -16,8 +16,13 @@ colored = "2.0.0"
 compound_duration = "1.2.0"
 lazy_static = "1.4.0"
 quoted-string = "0.6.1"
+ron = "0.8.1"
 sysinfo = "0.29.1"
 whoami = "1.3.0"
+
+[dependencies.serde]
+version = "1.0.192"
+features = ["derive"]
 
 [profile.release]
 strip = true
@@ -28,12 +33,3 @@ panic = "abort"
 
 [features]
 field-titles = []
-
-[package.metadata.rpm]
-package = "oxidefetch"
-
-[package.metadata.rpm.cargo]
-buildflags = ["--release"]
-
-[package.metadata.rpm.targets]
-oxidefetch = { path = "/usr/bin/oxidefetch" }
