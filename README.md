@@ -1,4 +1,4 @@
-# oxidefetch 1.4.6
+# oxidefetch 1.4.7
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
