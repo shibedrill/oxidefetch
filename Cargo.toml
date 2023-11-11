@@ -1,7 +1,7 @@
 [package]
 name = "oxidefetch"
 description = "A fast, cross platform Fetch program for your terminal"
-version = "1.4.5"
+version = "1.4.6"
 edition = "2021"
 authors = [ "NamedNeon", "shibedrill" ]
 license = "MIT"

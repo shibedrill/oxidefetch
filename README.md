@@ -1,4 +1,4 @@
-# oxidefetch 1.4.5
+# oxidefetch 1.4.6
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -97,6 +97,7 @@ No weird quirks to report at this time.
 **1.4.3:** Removed newline print before information. This should be up to the user to print, using their shell profile.  
 **1.4.4:** Fixed an issue where GPUs would all print on one line.  
 **1.4.5:** Minor changes to system color detection. Removed all warnings.  
+**1.4.6:** Cargo formatting applied to all files. Mild string reformatting in print statements.
 
 ### License
 This software is covered by the MIT license. See license.txt for details.

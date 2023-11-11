@@ -2,29 +2,29 @@
 
 Copyright 2023 shibedrill & Namedneon
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the “Software”), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the “Software”), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
 so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all 
+The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
 
-use std::env;
-use std::collections::HashMap;
 use lazy_static::lazy_static;
+use std::collections::HashMap;
+use std::env;
 use sysinfo::{Pid, PidExt, ProcessExt, System, SystemExt};
 
 lazy_static! {
@@ -43,10 +43,7 @@ lazy_static! {
 }
 
 // Allows detection of shells that host themselves (i.e. Command Prompt).
-const SELF_HOSTED_SHELLS: [&str; 2] = [
-    "cmd.exe",
-    "powershell.exe"
-];
+const SELF_HOSTED_SHELLS: [&str; 2] = ["cmd.exe", "powershell.exe"];
 
 macro_rules! match_env_to_terminal {
     ($env: expr, $name: expr) => {
@@ -54,7 +51,7 @@ macro_rules! match_env_to_terminal {
             Ok(_) => return Some($name.to_string()),
             Err(_) => (),
         };
-    }
+    };
 }
 
 pub fn get_terminal() -> Option<String> {
@@ -93,9 +90,11 @@ pub fn get_terminal() -> Option<String> {
     'find_shell: loop {
         let ppid = pid_to_ppid(pid);
 
-        if ppid.is_none() { // We ran out of parents.
+        if ppid.is_none() {
+            // We ran out of parents.
             return None;
-        } else if ppid.unwrap().as_u32() == 1 { // We have reached the daemon.
+        } else if ppid.unwrap().as_u32() == 1 {
+            // We have reached the daemon.
             return None;
         }
 
@@ -131,7 +130,7 @@ pub fn get_terminal() -> Option<String> {
             Some(f) => {
                 // Try to get name.
                 name = pid_to_name(f);
-            },
+            }
         };
     }
 
@@ -146,9 +145,9 @@ pub fn get_terminal() -> Option<String> {
             }
 
             Some(res)
-        },
+        }
         None => None,
-    }
+    };
 }
 
 fn pid_to_name(pid: Pid) -> Option<String> {
