@@ -97,8 +97,8 @@ No weird quirks to report at this time.
 **1.4.3:** Removed newline print before information. This should be up to the user to print, using their shell profile.  
 **1.4.4:** Fixed an issue where GPUs would all print on one line.  
 **1.4.5:** Minor changes to system color detection. Removed all warnings.  
-**1.4.6:** Cargo formatting applied to all files. Mild string reformatting in print statements.
-**1.4.7:** Removed several `unwrap()` calls. Changed debug output to serialize to RON.
+**1.4.6:** Cargo formatting applied to all files. Mild string reformatting in print statements.  
+**1.4.7:** Removed several `unwrap()` calls. Changed debug output to serialize to RON.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
