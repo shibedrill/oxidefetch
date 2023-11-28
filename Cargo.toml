@@ -6,6 +6,7 @@ edition = "2021"
 authors = [ "NamedNeon", "shibedrill" ]
 license = "MIT"
 readme = "README.md"
+repository = "https://github.com/shibedrill/oxidefetch"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
