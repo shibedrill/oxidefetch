@@ -30,7 +30,7 @@ Also, the field-titles feature can be enabled at compile-time, which will displa
 
 ### Installation  
 Download a binary for your platform, and place it in your PATH.  
-Currently, only Windows (x86) and Linux (x86) have binaries available. If you want a binary for another platform, you will have to follow the instructions to build from source.
+Currently, only Windows (x86_64, gnu/msvc) and Linux (x86_64/aarch64, gnu/musl) have binaries available. If you want a binary for another platform, you will have to follow the instructions to build from source.
 
 ### Dependencies 
 #### Build/Install
