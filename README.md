@@ -21,11 +21,10 @@ OxideFetch can display all of the following information:
 - Kernel version  
 - Uptime  
 - Shell  
-- Terminal  
+- Terminal emulator/console  
 - CPU  
 - GPU  
-- Memory  
-- Terminal emulator  
+- Memory    
 
 ### Installation  
 Download a binary for your platform, and place it in your PATH.  
