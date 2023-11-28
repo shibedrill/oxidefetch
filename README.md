@@ -24,7 +24,8 @@ OxideFetch can display all of the following information:
 - Terminal emulator/console  
 - CPU  
 - GPU  
-- Memory    
+- Memory
+
 Also, the field-titles feature can be enabled at compile-time, which will display the name of each field in white before the information within that field. By default, it is disabled.
 
 ### Installation  
