@@ -28,10 +28,10 @@ use crate::terminal::get_terminal;
 use byte_unit::*;
 use chrono::*;
 use colored::*;
-use compound_duration;
+
 use std::env;
 use sysinfo::*;
-use whoami;
+
 
 #[cfg(test)]
 use serde::Serialize;
@@ -141,7 +141,7 @@ impl Information {
             shell: {
                 let var = env::var("SHELL");
                 if let Ok(var_ok) = var {
-                    Some(format!("{}", var_ok.split('/').last().unwrap()))
+                    Some(var_ok.split('/').last().unwrap().to_string())
                 } else {
                     None
                 }

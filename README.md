@@ -1,4 +1,4 @@
-# oxidefetch 1.4.7
+# oxidefetch 1.4.8
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -29,13 +29,18 @@ OxideFetch can display all of the following information:
 Also, the field-titles feature can be enabled at compile-time, which will display the name of each field in white before the information within that field. By default, it is disabled.
 
 ### Installation  
-Download a binary for your platform, and place it in your PATH.  
+Download a binary for your platform, and place it in your `$PATH`.  
 Currently, only Windows (x86_64, gnu/msvc) and Linux (x86_64/aarch64, gnu/musl) have binaries available. If you want a binary for another platform, you will have to follow the instructions to build from source.
 
 ### Dependencies 
 #### Build/Install
-To build Oxidefetch, you need Cargo. You can use Cargo to automatically build and install it like so:
-`cargo install --git https://github.com/shibedrill/oxidefetch`. (Alternatively, you can get it from the Crates repos, using `cargo install oxidefetch`. But it might be slightly out of date.) From there, it *should* be in your `$PATH`. If not, add `source ~/.cargo/env` to your profile, or add `~/.cargo/bin` to your `$PATH`. If you do not already have Cargo installed on your system, you can do so by installing Rustup- either via the [instructions on their website](https://doc.rust-lang.org/cargo/getting-started/installation.html "instructions on their website") or via your system package manager. You will also probably need a C compiler and a build system- most likely CMake or GNU Make. You will be prompted to install these if they're not found during compilation.
+To build Oxidefetch, you need Cargo. If you do not already have Cargo installed on your system, you can do so by installing Rustup- either via the [instructions on their website](https://doc.rust-lang.org/cargo/getting-started/installation.html "instructions on their website") or via your system package manager.  
+You will also probably need a C/C++ compiler and a build system- most likely CMake and Visual Studio Build Tools, or GNU Make and the GNU compiler collection. You will be prompted to install these if they're not found during compilation.  
+You can use Cargo, once it's installed, to automatically build and install Oxidefetch like so:
+`cargo install --git https://github.com/shibedrill/oxidefetch`.  
+Alternatively, you can get it from the Crates repos, using `cargo install oxidefetch`. But it might be slightly out of date.  
+From there, it *should* be in your `$PATH`. If not, add `source ~/.cargo/env` to your profile, or add `~/.cargo/bin` to your `$PATH`.  
+
 #### Runtime
 There's only a couple runtime dependencies for this project.  
 1: `sh` shell installed for GPU detection on \*nix systems.  
@@ -45,7 +50,8 @@ GPU detection runs on Windows without any dependencies.)
 3: Nerd fonts symbols are used in the output. Install a patched font on  your system, or patch an already installed font.
 
 ### How you can help with the project
-I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people with varying types of systems. I've tested a few, but there's some I'm unable to test. To help, you can kindly clone this repo, and inside the folder, run `cargo test -- --nocapture`, and send the resultant `test_output.txt` file to my noreply email address, or directly to me on Discord at `@shibedrill`. This program does NOT collect information regarding your real name, IP, location, hardware serial numbers, etc. You can look at the file it generates to be sure- it's all plaintext, babey.  
+I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people with varying types of systems. I've tested a few, but there's some I'm unable to test. To help, you can kindly clone this repo, and inside the folder, run `cargo test -- --nocapture`, and send the resultant `test_output.txt` file to my noreply email address, or directly to me on Discord at `@shibedrill`. This program does NOT collect information regarding your real name, IP, location, hardware serial numbers, etc. You can look at the file it generates to be sure- it's all plaintext, babey. Also, consider contributing to [libpci-rs](https://github.com/namedneon/libpci-rs), which will eventually take responsibility for the GPU detection.  
+
 #### Tested distributions/platforms:
 - Alma Linux
 - Alpine Linux
@@ -100,6 +106,7 @@ No weird quirks to report at this time.
 **1.4.5:** Minor changes to system color detection. Removed all warnings.  
 **1.4.6:** Cargo formatting applied to all files. Mild string reformatting in print statements.  
 **1.4.7:** Removed several `unwrap()` calls. Changed debug output to serialize to RON.  
+**1.4.8:** Applied Clippy suggestions. Added stuff to README.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.

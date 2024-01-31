@@ -56,16 +56,13 @@ macro_rules! match_env_to_terminal {
 
 pub fn get_terminal() -> Option<String> {
     // Match Apple terminals.
-    match env::var("TERM_PROGRAM") {
-        Ok(f) => {
-            return match f.as_str() {
-                "iTerm.app" => Some("iTerm2".to_string()),
-                "Terminal.app" => Some("Apple Terminal".to_string()),
-                "Hyper.app" => Some("Hyper".to_string()),
-                _ => None,
-            };
-        }
-        Err(_) => (),
+    if let Ok(f) = env::var("TERM_PROGRAM") {
+        return match f.as_str() {
+            "iTerm.app" => Some("iTerm2".to_string()),
+            "Terminal.app" => Some("Apple Terminal".to_string()),
+            "Hyper.app" => Some("Hyper".to_string()),
+            _ => None,
+        };
     };
 
     match_env_to_terminal!("ConEmuPID", "ConEmu");
@@ -79,7 +76,7 @@ pub fn get_terminal() -> Option<String> {
         Ok(f) => f,
         Err(_) => "".to_string(),
     };
-    let shell_name = shell.split("/").last().unwrap();
+    let shell_name = shell.split('/').last().unwrap();
 
     #[allow(unused_assignments)]
     let mut name: Option<String> = None;
@@ -137,7 +134,7 @@ pub fn get_terminal() -> Option<String> {
     return match name {
         Some(f) => {
             // Remove the file extension.
-            let mut res = f.split(".").nth(0).unwrap().to_string();
+            let mut res = f.split('.').next().unwrap().to_string();
 
             // Try to get a "prettier name".
             if PRETTY_NAMES.contains_key(res.as_str()) {
