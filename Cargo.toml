@@ -22,7 +22,7 @@ sysinfo = "0.29.1"
 whoami = "1.3.0"
 
 [dependencies.libpci-rs]
-path = "../libpci-rs"
+git = "https://github.com/namedNeon/libpci-rs"
 
 [dependencies.serde]
 version = "1.0.192"

@@ -380,6 +380,7 @@ dependencies = [
 [[package]]
 name = "libpci-rs"
 version = "0.2.0"
+source = "git+https://github.com/namedNeon/libpci-rs#99e3fc946ec29b70283166b0128f68f54e806e5b"
 dependencies = [
  "bindgen",
  "cfg-if",

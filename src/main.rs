@@ -28,7 +28,6 @@ use crate::terminal::get_terminal;
 use byte_unit::*;
 use chrono::*;
 use colored::*;
-use libpci_rs;
 use std::env;
 use sysinfo::*;
 
