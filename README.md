@@ -1,4 +1,4 @@
-# oxidefetch 1.4.8
+# oxidefetch 2.0.0-beta.0
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -11,7 +11,7 @@ Neofetch, being a BASH script, has a few downsides in my opinion.
 As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, cross-platform, and BLAZINGLY fast. I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
 
 ### Special Thanks
-The most heartfelt of thanks goes out to NamedNeon, who contributed the code to perform terminal detection.  
+The most heartfelt of thanks goes out to NamedNeon, who contributed the code to perform terminal detection, and to perform GPU detection on Darwin and Windows.  
 
 ### Features  
 OxideFetch can display all of the following information:  
@@ -42,15 +42,10 @@ Alternatively, you can get it from the Crates repos, using `cargo install oxidef
 From there, it *should* be in your `$PATH`. If not, add `source ~/.cargo/env` to your profile, or add `~/.cargo/bin` to your `$PATH`.  
 
 #### Runtime
-There's only a couple runtime dependencies for this project.  
-1: `sh` shell installed for GPU detection on \*nix systems.  
-2: `lspci` installed for GPU detection on \*nix systems.  
-(If either of these above dependencies are absent, chances are the GPU field will simply not show up. It won't crash or anything.  
-GPU detection runs on Windows without any dependencies.)  
-3: Nerd fonts symbols are used in the output. Install a patched font on  your system, or patch an already installed font.
+The only runtime dependency for this project is a font with Nerd Fonts Symbols. If this is not used, the symbols in the output will not appear correctly.
 
 ### How you can help with the project
-I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people with varying types of systems. I've tested a few, but there's some I'm unable to test. To help, you can kindly clone this repo, and inside the folder, run `cargo test -- --nocapture`, and send the resultant `test_output.txt` file to my noreply email address, or directly to me on Discord at `@shibedrill`. This program does NOT collect information regarding your real name, IP, location, hardware serial numbers, etc. You can look at the file it generates to be sure- it's all plaintext, babey. Also, consider contributing to [libpci-rs](https://github.com/namedneon/libpci-rs), which will eventually take responsibility for the GPU detection.  
+I need to verify the output of the OS information detection libraries I'm pulling in. To do this, I need the help of people with varying types of systems. I've tested a few, but there's some I'm unable to test. To help, you can kindly clone this repo, and inside the folder, run `cargo test -- --nocapture`, and send the resultant `test_output.txt` file to my noreply email address, or directly to me on Discord at `@shibedrill`. This program does NOT collect information regarding your real name, IP, location, hardware serial numbers, etc. You can look at the file it generates to be sure- it's all plaintext, babey. Also, consider contributing to [libpci-rs](https://github.com/namedneon/libpci-rs) to improve its functionality, efficiency, and cleanliness.  
 
 #### Tested distributions/platforms:
 - Alma Linux
@@ -77,12 +72,10 @@ No weird quirks to report at this time.
 - Add support for user configurability for entries (whether or not an entry shows, its color, units for memory and time)   
 - Add process count detection  
 - Refactor logic for cleaner code  
-- Edit \*nix GPU detection to include GPUs that do not include `VGA Compatible Controller` in the name  
 #### Future:  
 - Add host system name detection such as "Windows Subsystem for Linux", "IdeaPad 3", "Dell Optiplex", etc.  
 - Add package count/package manager detection  
 - Crosstest on more distributions to verify `sys.name()` outputs  
-- Refactor GPU detection logic into separate crate, remove dependencies on `sh` and `lspci`, and put any platform-specific code in separate files (This is slated for the 2.0.0 release. If you want to help accelerate this effort, consider contributing to [libpci-rs](https://github.com/namedneon/libpci-rs).)  
 #### Distant future:
 - More extensible user configuration for entry formatting  
 - Separate all information-getting logic into a new Fetch crate, allowing people to make their own fetch programs using a unified cross-platform API  
@@ -107,6 +100,7 @@ No weird quirks to report at this time.
 **1.4.6:** Cargo formatting applied to all files. Mild string reformatting in print statements.  
 **1.4.7:** Removed several `unwrap()` calls. Changed debug output to serialize to RON.  
 **1.4.8:** Applied Clippy suggestions. Added stuff to README.  
+**2.0.0-beta.0:** Switch from deprecated, platform-dependent GPU backends to [libpci-rs](https://github.com/namedneon/libpci-rs)  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.

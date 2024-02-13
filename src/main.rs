@@ -28,7 +28,7 @@ use crate::terminal::get_terminal;
 use byte_unit::*;
 use chrono::*;
 use colored::*;
-
+use libpci_rs;
 use std::env;
 use sysinfo::*;
 
@@ -151,57 +151,20 @@ impl Information {
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
-                match sys
-                    .name()
-                    .unwrap_or(String::from("Unknown System"))
-                    .as_ref()
-                {
-                    "Windows" => {
-                        // On windows, we run "wmic path win32_VideoController get name" and
-                        // the second line is our GPU name.
-                        let command_output = std::process::Command::new("wmic")
-                            .args(["path", "win32_VideoController", "get", "name"])
-                            .output();
-                        match command_output {
-                            Ok(gpu_info) => {
-                                let gpu_info_as_string = String::from_utf8(gpu_info.stdout);
-                                Some(vec![String::from(
-                                    gpu_info_as_string
-                                        .unwrap() // TODO: Please figure out a way to get rid of this unwrap() call.
-                                        // I feel like I did so well avoiding unwrap calls everywhere except for here.
-                                        .lines()
-                                        .collect::<Vec<&str>>()[1],
-                                )])
-                            }
-                            Err(_) => None,
+                if let Ok(pci_list) = libpci_rs::backend::get_pci_list() {
+                    let mut gpu_name_vec: Vec<String> = vec!();
+                    for device in pci_list {
+                        if device.class == 3 {
+                            // HERE IS WHERE THE NAME LOOKUP WOULD BE PERFORMED
+                            gpu_name_vec.push(device.to_string());
                         }
                     }
-                    _ => {
-                        // On *nix, hopefully, "lspci | grep VGA | awk -F 'VGA compatible controller: ' '{print $2}'" gives us our GPU name.
-                        // Since pipes can't be processed as arguments, we need to do all this in a subshell under SH.
-                        let command_output = std::process::Command::new("sh")
-                            .args(["-c", "lspci | grep VGA | awk -F'VGA compatible controller: ' '{print $2}'"])
-                            .output();
-
-                        // Check if running the command resulted in an error. If not, convert to a vector.
-                        // TODO: Please fix this horrible logic. It needs refactoring.
-                        match command_output {
-                            Err(_) => None,
-                            Ok(output_bytes) => match String::from_utf8(output_bytes.stdout) {
-                                Err(_) => None,
-                                Ok(output_string) => match output_string.as_ref() {
-                                    "" => None,
-                                    _ => {
-                                        let mut gpu_vec = vec![];
-                                        for s in output_string.trim().split('\n') {
-                                            gpu_vec.push(s.to_string());
-                                        }
-                                        Some(gpu_vec)
-                                    }
-                                },
-                            },
-                        }
+                    match gpu_name_vec.len() {
+                        0 => None,
+                        1.. => Some(gpu_name_vec),
                     }
+                } else {
+                    None
                 }
             },
 

@@ -1,7 +1,7 @@
 [package]
 name = "oxidefetch"
 description = "A fast, cross platform Fetch program for your terminal"
-version = "1.4.8"
+version = "2.0.0-beta.0"
 edition = "2021"
 authors = [ "NamedNeon", "shibedrill" ]
 license = "MIT"
@@ -20,6 +20,9 @@ quoted-string = "0.6.1"
 ron = "0.8.1"
 sysinfo = "0.29.1"
 whoami = "1.3.0"
+
+[dependencies.libpci-rs]
+path = "../libpci-rs"
 
 [dependencies.serde]
 version = "1.0.192"
