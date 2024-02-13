@@ -254,8 +254,8 @@ mod test {
     pub fn log_gathered_data() {
         let sys_info = Information::new();
         //let data_string = format!("{:#?}", sys_info);
-        let data_string = ron::ser::to_string_pretty(&sys_info, ron::ser::PrettyConfig::default())
-            .expect("Failed to serialize data structure. Aborting...");
+        let data_string = format!("Version: {}\nBegin structure dump:\n{}", env!("CARGO_PKG_VERSION"), ron::ser::to_string_pretty(&sys_info, ron::ser::PrettyConfig::default())
+            .expect("Failed to serialize data structure. Aborting..."));
         let result = fs::write("./test_output.ron", data_string);
 
         if result.is_ok() {

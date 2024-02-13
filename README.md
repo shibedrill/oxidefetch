@@ -1,4 +1,4 @@
-# oxidefetch 2.0.0-beta.0
+# oxidefetch 2.0.0-beta.1
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
 ![alt text](image.png "Example output of OxideFetch on a WSL2 Arch Linux host")  
@@ -101,6 +101,7 @@ No weird quirks to report at this time.
 **1.4.7:** Removed several `unwrap()` calls. Changed debug output to serialize to RON.  
 **1.4.8:** Applied Clippy suggestions. Added stuff to README.  
 **2.0.0-beta.0:** Switch from deprecated, platform-dependent GPU backends to [libpci-rs](https://github.com/namedneon/libpci-rs)  
+**2.0.0-beta.1:** Updated test functionality to include package version in the log file.  
 
 ### License
 This software is covered by the MIT license. See license.txt for details.
