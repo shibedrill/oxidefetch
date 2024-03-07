@@ -28,7 +28,7 @@ use crate::terminal::get_terminal;
 use byte_unit::*;
 use chrono::*;
 use colored::*;
-use libpci_rs::{pci::*, ids::*};
+use libpci_rs::{ids::*, pci::*};
 use std::env;
 use sysinfo::*;
 
@@ -54,7 +54,11 @@ fn main() {
     color_print(
         "Host:\t",
         '',
-        &Some(format!("{}@{}", sys_info.username, sys_info.hostname)),
+        &Some(format!(
+            "{}@{}",
+            sys_info.username,
+            sys_info.hostname.unwrap_or("unknown".to_string())
+        )),
         "purple",
     );
     color_print("OS:\t", sys_info.icon, &sys_info.os_name, &sys_info.color);
@@ -92,7 +96,7 @@ struct Information {
     // within the args of color_print, since that function only accepts args of
     // type Option<String>.
     username: String,
-    hostname: String,
+    hostname: Option<String>,
     os_name: Option<String>,
     os_ver: Option<String>,
     kernel_ver: Option<String>,
@@ -127,7 +131,7 @@ impl Information {
 
         Self {
             username: whoami::username(),
-            hostname: whoami::hostname(),
+            hostname: whoami::fallible::hostname().ok(),
             os_name: os_name.clone(),
             os_ver: sys.os_version(),
             kernel_ver: sys.kernel_version(),
@@ -264,7 +268,7 @@ mod test {
         let sys_info = Information::new();
         //let data_string = format!("{:#?}", sys_info);
         let data_string = format!(
-            "Version: {}\nBegin structure dump:\n{}",
+            "// Version: {}\n// Begin structure dump:\n{}",
             env!("CARGO_PKG_VERSION"),
             ron::ser::to_string_pretty(&sys_info, ron::ser::PrettyConfig::default())
                 .expect("Failed to serialize data structure. Aborting...")
