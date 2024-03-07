@@ -28,9 +28,9 @@ use crate::terminal::get_terminal;
 use byte_unit::*;
 use chrono::*;
 use colored::*;
+use libpci_rs::{pci::*, ids::*};
 use std::env;
 use sysinfo::*;
-
 
 #[cfg(test)]
 use serde::Serialize;
@@ -80,10 +80,7 @@ fn color_print(field_title: &str, icon: char, field: &Option<String>, color: &st
     if let Some(fieldvalue) = field {
         #[cfg(feature = "field-titles")]
         print!("{} ", field_title.bright_white());
-        println!(
-            "{}",
-            format!("{} {}", icon, fieldvalue).color(color)
-        );
+        println!("{}", format!("{} {}", icon, fieldvalue).color(color));
     }
 }
 
@@ -150,12 +147,24 @@ impl Information {
             cpu: String::from(sys.cpus()[0].brand()),
 
             gpu: {
-                if let Ok(pci_list) = libpci_rs::backend::get_pci_list() {
-                    let mut gpu_name_vec: Vec<String> = vec!();
+                if let Ok(pci_list) = get_pci_list() {
+                    let mut gpu_name_vec: Vec<String> = vec![];
                     for device in pci_list {
                         if device.class == 3 {
-                            // HERE IS WHERE THE NAME LOOKUP WOULD BE PERFORMED
-                            gpu_name_vec.push(device.to_string());
+                            let vendor_entry = lookup_vendor(device.vendor_id).unwrap();
+                            let device_entry = vendor_entry.device(device.device_id).unwrap();
+                            gpu_name_vec.push(format!(
+                                "{} {} {}",
+                                vendor_entry.name(),
+                                device_entry.name(),
+                                {
+                                    if device.revision_id != 0 {
+                                        format!(" (rev {:02x})", device.revision_id)
+                                    } else {
+                                        "".to_string()
+                                    }
+                                }
+                            ));
                         }
                     }
                     match gpu_name_vec.len() {
@@ -254,8 +263,12 @@ mod test {
     pub fn log_gathered_data() {
         let sys_info = Information::new();
         //let data_string = format!("{:#?}", sys_info);
-        let data_string = format!("Version: {}\nBegin structure dump:\n{}", env!("CARGO_PKG_VERSION"), ron::ser::to_string_pretty(&sys_info, ron::ser::PrettyConfig::default())
-            .expect("Failed to serialize data structure. Aborting..."));
+        let data_string = format!(
+            "Version: {}\nBegin structure dump:\n{}",
+            env!("CARGO_PKG_VERSION"),
+            ron::ser::to_string_pretty(&sys_info, ron::ser::PrettyConfig::default())
+                .expect("Failed to serialize data structure. Aborting...")
+        );
         let result = fs::write("./test_output.ron", data_string);
 
         if result.is_ok() {
