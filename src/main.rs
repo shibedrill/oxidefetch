@@ -160,7 +160,15 @@ impl Information {
                             gpu_name_vec.push(format!(
                                 "{} {} {}",
                                 vendor_entry.name(),
-                                device_entry.name(),
+                                // Get the subdevice name if it's available. Otherwise, use the long device name.
+                                {
+                                    if let Some(subsystem_entry) = device_entry.subsystem(device.subsys_device_id, device.subsys_vendor_id) {
+                                        subsystem_entry.name()
+                                    } else {
+                                        device_entry.name()
+                                    }
+                                },
+                                // Only show the revision when it's relevant.
                                 {
                                     if device.revision_id != 0 {
                                         format!(" (rev {:02x})", device.revision_id)
