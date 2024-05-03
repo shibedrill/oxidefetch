@@ -218,6 +218,7 @@ impl Information {
                 "openSUSE Tumbleweed" | "openSUSE Leap" => '',
                 "PopOS" => '',
                 "Ubuntu" => '',
+                "SteamOS" => '',
                 "Windows" => '',
                 "Android" => '',
                 "iOS" => '',
@@ -254,7 +255,7 @@ impl Information {
                 "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => "bright blue",
                 "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => "bright green",
                 "EndeavourOS" | "Gentoo" | "CentOS Linux" | "CentOS Stream" => "purple",
-                "iOS" | "macOS" | "ElementaryOS" => "bright white",
+                "iOS" | "macOS" | "ElementaryOS" | "SteamOS" => "bright white",
                 "AlmaLinux" => "yellow",
 
                 _ => "bright white",
