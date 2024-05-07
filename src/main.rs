@@ -67,7 +67,7 @@ fn main() {
     color_print("Uptime:\t", '', &Some(sys_info.uptime), "bright gray");
     color_print("Shell:\t", '', &sys_info.shell, "bright magenta");
     color_print("Terminal:\t", '', &sys_info.terminal, "magenta");
-    color_print("CPU:\t", '', &Some(sys_info.cpu), "green");
+    color_print("CPU:\t", '', &sys_info.cpu, "green");
 
     if let Some(gpuvec) = sys_info.gpu {
         for gpu in gpuvec {
@@ -103,7 +103,7 @@ struct Information {
     uptime: String,
     shell: Option<String>,
     terminal: Option<String>,
-    cpu: String,
+    cpu: Option<String>,
     gpu: Option<Vec<String>>,
     memory: String,
     icon: char,
@@ -148,7 +148,14 @@ impl Information {
             },
 
             terminal: get_terminal(),
-            cpu: String::from(sys.cpus()[0].brand()),
+            cpu: {
+                let cpus = sys.cpus();
+                if let Some(first_cpu) = cpus.get(0) {
+                    Some(first_cpu.brand().into())
+                } else {
+                    None
+                }
+            },
 
             gpu: {
                 if let Ok(pci_list) = get_pci_list() {
