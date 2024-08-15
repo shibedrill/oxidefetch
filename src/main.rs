@@ -230,6 +230,7 @@ impl Information {
                 "Android" => '',
                 "iOS" => '',
                 "MacOS" => '',
+                "NixOS" => '󱄅',
                 "Unknown System" => '?',
                 _ => {
                     if sys
@@ -259,7 +260,7 @@ impl Information {
                 "FreeBSD" => "red",
                 "Ubuntu" => "orange",
                 "Arch Linux" | "Windows" | "PopOS" => "bright cyan",
-                "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" => "bright blue",
+                "Fedora Linux" | "Kali GNU/Linux" | "Alpine Linux" | "NixOS" => "bright blue",
                 "openSUSE Tumbleweed" | "openSUSE Leap" | "Linux Mint" | "Android" => "bright green",
                 "EndeavourOS" | "Gentoo" | "CentOS Linux" | "CentOS Stream" => "purple",
                 "iOS" | "macOS" | "ElementaryOS" | "SteamOS" => "bright white",

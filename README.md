@@ -125,6 +125,7 @@ No weird quirks to report at this time.
 **2.0.0-beta.1:** Updated test functionality to include package version in the log file.  
 **2.0.0-beta.2:** Updated use of `libpci-rs` as its API approaches stability.  
 **2.0.0-beta.3:** GPU subsystem names will display instead of long names, if available.  
+**2.0.0-beta.4:** Added NixOS as a recognized distro.  
 
 ### License
 
