@@ -150,11 +150,7 @@ impl Information {
             terminal: get_terminal(),
             cpu: {
                 let cpus = sys.cpus();
-                if let Some(first_cpu) = cpus.get(0) {
-                    Some(first_cpu.brand().into())
-                } else {
-                    None
-                }
+                cpus.first().map(|first_cpu| first_cpu.brand().into())
             },
 
             gpu: {
