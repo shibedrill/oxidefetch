@@ -1,4 +1,4 @@
-# oxidefetch 2.0.0-beta.3
+# oxidefetch 2.0.0-beta.4
 
 Fully cross platform Neofetch clone written in Rust. Up to 25 times faster than Neofetch!  
 
