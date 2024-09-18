@@ -61,6 +61,7 @@ I need to verify the output of the OS information detection libraries I'm pullin
 
 - Alma Linux
 - Alpine Linux
+- Android
 - Arch Linux
 - CentOS
 - Debian GNU/Linux
@@ -75,7 +76,8 @@ I need to verify the output of the OS information detection libraries I'm pullin
 
 ### Bugs, Quirks, Unintended Behavior, And Other Shenanigans
 
-No weird quirks to report at this time.  
+ - Some information may be vague or incorrect on Android. I might consider switching to new stacks for certain pieces of information.
+ - GPU detection might require root on certain platforms, such as Android and MacOS.
 
 ### To Do & Roadmap
 
@@ -87,7 +89,9 @@ No weird quirks to report at this time.
 
 - Add support for user configurability for entries (whether or not an entry shows, its color, units for memory and time)  
 - Add process count detection  
-- Refactor logic for cleaner code  
+- Refactor logic for cleaner code
+- Fix Android-specific problems
+- Make GPU display names more compact (how?)  
 
 #### Future
 
