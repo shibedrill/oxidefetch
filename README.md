@@ -10,7 +10,7 @@ Neofetch, being a BASH script, has a few downsides in my opinion.
 1: It's slow.  
 2: It only works on platforms which have the BASH shell.  
 3: It's kinda big, and I like having more compact info.  
-As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, cross-platform, and BLAZINGLY fast. I've measured speeds of up to 25 times faster than normal Neofetch on WSL2.
+As such, I wrote OxideFetch. How cool is that? It displays your information in a manner that's compact, cross-platform, and BLAZINGLY fast. I've measured speeds of up to 25 times faster than normal Neofetch on WSL2. Its primary advantage over other fetch programs is its usage of [libpci-rs](https://github.com/gibsonpil/libpci-rs), which is significantly (up to 35 times) faster than the system-provided `lspci` on Linux when looking up display names for GPUs.
 
 ### Special Thanks
 
